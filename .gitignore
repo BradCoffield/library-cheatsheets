@@ -1,3 +1,4 @@
+_site/
 # Logs
 logs
 *.log
@@ -59,3 +60,15 @@ typings/
 
 # next.js build output
 .next
+_site/package.json
+_site/basic-blocks-raw/primo-books-by-topic.js
+_site/basic-blocks-raw/primo-quick-search.js
+_site/basic-blocks-raw/raw-html.js
+_site/functions/index.js
+_site/functions/package-lock.json
+_site/functions/package.json
+_site/functions/src/forFirestore/databaseRead.js
+_site/firebase.json
+_site/index.html
+_site/LICENSE
+_site/README.md
