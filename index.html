@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Basic Blocks Raw</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/primo-books-by-topic.css">
     
 </head>
 <body>
@@ -17,9 +19,51 @@
     <div id="primo-quick-search"></div>
  
    <h2>primo-books-by-topic.js</h2>
-   <div id="primo-books-by-topic "><ul id="new-books"></ul></div>
+   <div id="new-books-1">
+  
+    <div id="new-books-div">
+      <div>
+        <div class="triple-spinner" id="library-preloader"></div>
+      </div>
+    </div>
+  </div>
 
-   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script
+<!-- FIRESTORE INIT STUFF -->
+
+<script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCDKrRaEVvKwz-TXwz2qnwov8yGXuP35Jk",
+    authDomain: "rmc-library-data.firebaseapp.com",
+    databaseURL: "https://rmc-library-data.firebaseio.com",
+    projectId: "rmc-library-data",
+    storageBucket: "rmc-library-data.appspot.com",
+    messagingSenderId: "30728362672"
+  };
+  firebase.initializeApp(config);
+</script>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-firestore.js"></script>
+<script></script>
+<script>
+  firebase.initializeApp({
+    apiKey: "AIzaSyCDKrRaEVvKwz-TXwz2qnwov8yGXuP35Jk",
+    authDomain: "rmc-library-data.firebaseapp.com",
+    projectId: "rmc-library-data"
+  });
+
+  const db = firebase.firestore();
+  const settings = { timestampsInSnapshots: true };
+  db.settings(settings);
+</script>
+
+
+
+
+
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="/basic-blocks-raw/raw-html.js"></script>
     <script src="/basic-blocks-raw/primo-quick-search.js"></script>
     <script src="/basic-blocks-raw/primo-books-by-topic.js"></script>

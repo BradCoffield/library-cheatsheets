@@ -1,0 +1,196 @@
+/* FANCY PRELOADER CSSSSSSSS */
+/* TRIPLE SPINNER  https://codepen.io/camdenfoucht/pen/BVxawq*/
+
+  
+.triple-spinner {
+    display: block;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    border-top: 4px solid #005934;
+    /* border-top: 4px solid #FF5722; */
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  
+  .triple-spinner::before,
+  .triple-spinner::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    border: 4px solid transparent;
+  }
+  .triple-spinner::before {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    /* border-top-color: #FF9800; */
+    border-top-color: #988b70;
+    -webkit-animation: spin 3s linear infinite;
+    animation: spin 3.5s linear infinite;
+  }
+  .triple-spinner::after {
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-top-color: #eee974;
+    /* border-top-color: #FFC107; */
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.75s linear infinite;
+  }
+  
+-webkit-@keyframes spin {
+    -webkit-from {
+      -webkit-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    -webkit-to {
+      -webkit-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  
+  @-webkit-keyframes spinBack {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(-720deg);
+      transform: rotate(-720deg);
+    }
+  }
+  
+  @keyframes spinBack {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(-720deg);
+      transform: rotate(-720deg);
+    }
+  }
+  /* END FANCY PRELOADER */
+
+
+
+#new-books-1 .book-cover {
+    box-shadow: 0px 0px 2px darkgray;
+}
+#new-books-1 .new-books-li {
+    box-shadow: 1px 1px 3px lightgray;
+    padding: 1rem;
+}
+#new-books-1 ul li {
+    display: inline-block;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+#new-books-1 .book-cover {
+    max-width: 145px;
+    max-height: 215px;
+}
+/* #new-books-1 ul li img {
+    max-width: 145px;
+    max-height: 215px;
+} */
+.content {
+    position: relative;
+    max-width: 400px;
+    margin: auto;
+    overflow: hidden;
+}
+.content .content-overlay {
+    background: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    height: 99%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    -webkit-transition: all 0.4s ease-in-out 0s;
+    -moz-transition: all 0.4s ease-in-out 0s;
+    transition: all 0.4s ease-in-out 0s;
+}
+.content:hover .content-overlay {
+    opacity: 1;
+}
+.content-image {
+    width: 100%;
+}
+.content-details {
+  
+    position: absolute;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
+.content:hover .content-details {
+    top: 50%;
+    left: 50%;
+    opacity: 1;
+}
+.content-details {
+    font-family: "Roboto Condensed", sans-serif;
+}
+.content-details .content-title {
+    color: #fff;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 5px;
+}
+.content-text .fa-external-link-alt {
+    font-size: 2.1rem;
+}
+.content-details p {
+    color: #fff;
+    font-size: 1.2rem;
+}
+.fadeIn-bottom {
+    top: 80%;
+}
+p.content-text {
+    margin-bottom: 1px;
+}
