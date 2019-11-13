@@ -1,5 +1,5 @@
 .wrap-collabsible {
-    margin-bottom: 1.2rem 0;
+    margin-bottom: 1.2rem;
   }
   
   input[type='checkbox'] {
@@ -18,7 +18,7 @@
     padding: 1rem;
   
     color: #A77B0E;
-    background: #FAE042;
+    background: white;
   
     cursor: pointer;
   

@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/BradCoffield/library-cheatsheets/issues"
   },
-  "homepage": "https://github.com/BradCoffield/library-cheatsheets#readme"
+  "homepage": "https://github.com/BradCoffield/library-cheatsheets#readme",
+  "dependencies": {}
 }
