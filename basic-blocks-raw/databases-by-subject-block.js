@@ -71,9 +71,9 @@ proxyRef.get().then(function(querySnapshot){
 .get()
 .then(function(querySnapshot) {
   querySnapshot.forEach(function(doc) {
-    console.log(doc.id, " => ", doc.data());
+    // console.log(doc.id, " => ", doc.data());
     let name = doc.data().name;
-    console.log(name);
+    // console.log(name);
     let url = "";
     if (doc.data().use_proxy){
       url = `${theProxyUrl}${doc.data().url}`
@@ -90,9 +90,9 @@ proxyRef.get().then(function(querySnapshot){
 .get()
 .then(function(querySnapshot) {
   querySnapshot.forEach(function(doc) {
-    console.log(doc.id, " => ", doc.data());
+    // console.log(doc.id, " => ", doc.data());
     let name = doc.data().name;
-    console.log(name);
+    // console.log(name);
     let content_types = doc.data().content_types;
     let description = doc.data().description;
     let url = "";
