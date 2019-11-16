@@ -16,5 +16,8 @@
     "url": "https://github.com/BradCoffield/library-cheatsheets/issues"
   },
   "homepage": "https://github.com/BradCoffield/library-cheatsheets#readme",
-  "dependencies": {}
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "xml2js": "^0.4.22"
+  }
 }
