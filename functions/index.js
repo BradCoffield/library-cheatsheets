@@ -26,6 +26,8 @@ fetch(url)
       processedResults.push({
         isbn: i.pnx.search.isbn,
         title: i.pnx.display.title,
+        sourceid: i.pnx.control.sourceid,
+          sourcerecordid: i.pnx.control.sourcerecordid
 
       });
     }
@@ -60,6 +62,8 @@ fetch(url)
         processedResults.push({
           isbn: i.pnx.search.isbn,
           title: i.pnx.display.title,
+          sourceid: i.pnx.control.sourceid,
+          sourcerecordid: i.pnx.control.sourcerecordid
 
         });
       }
