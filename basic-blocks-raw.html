@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Basic Blocks Raw</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/primo-books-by-topic.css">
+    <link rel="stylesheet" href="/css/databases-by-subject.css">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/@sn8z/pop-pop.css@latest/dist/pop-pop.min.css"> -->
+    
+</head>
+<body>
+    <h1>Basic blocks raw</h1>
+    
+<h2>ebsco-api.js</h2>
+<div id="ebsco-results"></div>
+
+
+    <h2>raw-html.js</h2>
+    <div id="raw-html"></div>
+    
+    <h2>primo-quick-search.js</h2>
+    <div id="primo-quick-search"></div>
+ 
+   <h2>primo-books-by-topic.js</h2>
+   <div id="new-books-1">
+  
+    <div id="new-books-div">
+      <div>
+        <div class="triple-spinner" id="library-preloader"></div>
+      </div>
+    </div>
+  </div>
+<p>here's some shit<span class="tooltip-trigger js-tooltip-trigger" title="Lorem ipsum dolor sit">heres some more shit</span></p>
+ 
+<h2>databases-by-subject-block.js<span class="tooltip-trigger js-tooltip-trigger" title="Lorem ipsum dolor sit"> <img src="/img/circle-question.png" alt=""></span></h2>
+ 
+
+
+  <h2 id="Health and Human Performance" class="be-plain subjectName"  >Health &amp; Human Performance Databases </h2 > 
+  <div class="row notop">
+      <section class="col-xs-12  ">
+            <div class="wrap-collabsible">
+                    <input id="collapsible2" class="toggle" type="checkbox">
+                    <label for="collapsible2" class="lbl-toggle">Best Bets</label>
+                    <div class="collapsible-content">
+                      <div class="content-inner">
+                            <ul id="excellent_for">
+                                    <li class="alphabet-li">Best Bets </li>
+                                  </ul>
+                      </div>
+                    </div>
+                  </div>
+       
+                  <div class="wrap-collabsible">
+                        <input id="collapsible3" class="toggle" type="checkbox">
+                        <label for="collapsible3" class="lbl-toggle">Additional Resources</label>
+                        <div class="collapsible-content">
+                          <div class="content-inner">
+                            <p>
+                                    <ul id="good_for">
+                                            <li class="alphabet-li">Additional Resources</li>
+                                          </ul>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+
+      
+      </section>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- FIRESTORE INIT STUFF -->
+
+<script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCDKrRaEVvKwz-TXwz2qnwov8yGXuP35Jk",
+    authDomain: "rmc-library-data.firebaseapp.com",
+    databaseURL: "https://rmc-library-data.firebaseio.com",
+    projectId: "rmc-library-data",
+    storageBucket: "rmc-library-data.appspot.com",
+    messagingSenderId: "30728362672"
+  };
+  firebase.initializeApp(config);
+</script>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-firestore.js"></script>
+<script></script>
+<script>
+  firebase.initializeApp({
+    apiKey: "AIzaSyCDKrRaEVvKwz-TXwz2qnwov8yGXuP35Jk",
+    authDomain: "rmc-library-data.firebaseapp.com",
+    projectId: "rmc-library-data"
+  });
+
+  const db = firebase.firestore();
+  const settings = { timestampsInSnapshots: true };
+  db.settings(settings);
+</script>
+
+ 
+
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/basic-blocks-raw/raw-html.js"></script>
+    <script src="/basic-blocks-raw/primo-quick-search.js"></script>
+    <script src="/basic-blocks-raw/primo-books-by-topic.js"></script>
+    <script src="/basic-blocks-raw/databases-by-subject-block.js"></script>
+    <!-- <script src="/basic-blocks-raw/ebsco-api.js"></script> -->
+    <!-- <script src="/forDrupal/testingCDN.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/BradCoffield/library-cheatsheets/forDrupal/testingCDN.js"></script> -->
+ 
+</body>
+</html>
