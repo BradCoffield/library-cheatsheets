@@ -1,12 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>~!~</title>
-</head>
-<body>
-    <p>Okay, so what I need to do right now is create code that looks at some id and based on that queries library-cheatsheets (ala db by subject) and then look in it for the ebsco search and for each one there, grab the uid and use that to get the corresponding cached ebsco search. Then display a series of links.</p>
-</body>
+  </head>
+  <body>
+    <p>
+      Okay, so what I need to do right now is create code that looks at some id
+      and based on that queries library-cheatsheets (ala db by subject) and then
+      look in it for the ebsco search and for each one there, grab the uid and
+      use that to get the corresponding cached ebsco search. Then display a
+      series of links.
+    </p>
+
+    <!-- FIRESTORE INIT STUFF -->
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyCDKrRaEVvKwz-TXwz2qnwov8yGXuP35Jk",
+        authDomain: "rmc-library-data.firebaseapp.com",
+        databaseURL: "https://rmc-library-data.firebaseio.com",
+        projectId: "rmc-library-data",
+        storageBucket: "rmc-library-data.appspot.com",
+        messagingSenderId: "30728362672"
+      };
+      firebase.initializeApp(config);
+      const db = firebase.firestore();
+      const settings = { timestampsInSnapshots: true };
+      db.settings(settings);
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-firestore.js"></script>
+
+    <script src="/js/ebsco-display-1.js"></script>
+  </body>
 </html>
