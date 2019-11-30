@@ -16,7 +16,7 @@ const primoBooksByTopic = function(){
       }
     }
   
-    db.collection("primo-searches")
+    db.collection("primo-book-searches")
       .doc("new-books")
       .get()
       .then(doc => {
@@ -90,7 +90,7 @@ const primoBooksByTopic = function(){
             this.theBookStuff = theBookStuff;
           }
           getToAppending() {
-            var domsn = document.getElementById("new-books");
+            var domsn = document.getElementById("new-books-div");
             domsn.insertAdjacentHTML("beforeend", this.theBookStuff);
             checkThisBook(i);
   
@@ -124,7 +124,7 @@ const primoBooksByTopic = function(){
 //  All of this bullshit is because of a inexplicable bug and this is a way around it but I don't want an infinite process if something really gets shitted up.
   function runTheShit() {
     newBooksFirestore(2);
-    let nextDom = document.getElementById("new-books");
+    let nextDom = document.getElementById("new-books-div");
     nextDom.remove()
     totalShitRuns++
  
