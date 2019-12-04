@@ -13,51 +13,62 @@ Okay, so how do i setup things that there's a default order? in firestore have a
 */
 let cheatsheetPage = document.querySelector(".subjectName").id;
 const cheatsheetsRef = db2.collection("Cheatsheets").doc(cheatsheetPage);
-cheatsheetsRef
-.get()
-.then(function(doc) {
-  if (doc.exists) {
-    let data = doc.data();
-    let keys = Object.keys(data);
-    // console.log(data);
-    // console.log(data.ebsco_api_a9h);
-    // let aa = data.filter((i) => {
-    //     return i.metadata
-    // })
-    // console.log(aa);
-    keys.forEach(i => {
-      // look in data[i] and if anywhere in that array there is "useInProduction true"
-    //   console.log(i, data[i]);
-    //   if (data[i].some(e => e.metadata.useInProduction === true)) {
-    //     // runMyStuff(i, data[i]);
-    //     console.log("yayyyy!");
-    //   }
-    // i.forEach((i) => {
-    //     console.log(i)
-    // }) 
-    let aa = data[i].filter((item) => {
-        return item.metadata
-    })
-    console.log(aa);
-    if (aa[0] && aa[0].metadata.useInProduction == true) {
-        buildBlock(aa[0].metadata.blockDisplayName, i)
-        runThings(i)}
-    });
-  } else {
-    console.log("No such document!");
-  }
-})
-.catch(function(error) {
-  console.log("Error getting document:", error);
-})
+let defaultOrderRef = db2.collection("defaultBlockOrder").doc("defaultOrder");
 
-function buildBlock(blockDisplayName, blockFirestoreName){
-    console.log("BUILDBLOCK!", blockDisplayName);
-    let blockShell = `<div class="cheatsheet-block"><h3>${blockDisplayName}</h3></div>`
-    let domElement = document.getElementById('cheatsheetsBlockWrapper')
-    domElement.insertAdjacentHTML("beforeend", blockShell)
+let defaultOrderForBlocks = [];
+let blocksForProduction = [];
+
+defaultOrderRef
+  .get()
+  .then(function(doc) {
+    if (doc.exists) {
+      console.log(doc.data().order);
+      defaultOrderForBlocks = doc.data().order;
+      console.log("dfb", defaultOrderForBlocks);
+    } else {
+      console.log("No such document!");
+    }
+  })
+  .then(
+    cheatsheetsRef
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          let data = doc.data();
+          let keys = Object.keys(data);
+
+          keys.forEach(i => {
+            let useInProd = data[i].filter(item => {
+              return item.metadata;
+            });
+            if (useInProd[0] && useInProd[0].metadata.useInProduction == true) {
+                blocksForProduction.push(i)
+                //create an array of values (strings that match from orderarray) and then later foreach over defaultorder and if exists in this new array then do the appending
+            }
+          });
+          return
+        } else {
+          console.log("No such document!");
+        }
+      }).then(() => {
+          console.log(blocksForProduction);
+        //   
+          defaultOrderForBlocks.forEach((block) => {
+              if (blocksForProduction.includes(block)){buildBlock(block)}
+          })
+      })
+      .catch(function(error) {
+        console.log("Error getting document:", error);
+      })
+  );
+
+function buildBlock(blockDisplayName, blockFirestoreName) {
+  // console.log("BUILDBLOCK!", blockDisplayName);
+  let blockShell = `<div class="cheatsheet-block"><h3>${blockDisplayName}</h3></div>`;
+  let domElement = document.getElementById("cheatsheetsBlockWrapper");
+  domElement.insertAdjacentHTML("beforeend", blockShell);
 }
 
-function runThings(blockName){
-    console.log("RunTHINGS!!!", blockName)
+function runThings(blockName) {
+  console.log("RunTHINGS!!!", blockName);
 }
