@@ -104,7 +104,7 @@ class CheatsheetsBlock {
     this.wantUL = wantUL
   }
   getToAppending() {
-    if (this.wantUL){this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul>hi</div>`;}
+    if (this.wantUL){this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul></div>`;}
     else this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"> hiii</div>`
     var domsn = document.getElementById(`cheatsheetsBlockWrapper`);
     domsn.insertAdjacentHTML("beforeend", this.blockContent);
