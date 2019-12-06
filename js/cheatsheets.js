@@ -1,3 +1,4 @@
+
 const cheatsheetPage = document.querySelector(".subjectName").id;
 
 const cheatsheetsRef = db2.collection("Cheatsheets").doc(cheatsheetPage);
@@ -9,7 +10,7 @@ let proxyPrepend;
 let defaultOrderForBlocks = [];
 let blocksForProduction = [];
 
-proxyRef /*Get our current proxyserver prepend*/
+proxyRef /* Get our current proxyserver prepend */
   .get()
   .then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
@@ -26,7 +27,8 @@ proxyRef /*Get our current proxyserver prepend*/
       }
     })
   )
-  .then( /* Now we get the data for our current cheatsheet and start creating the dom shell for each block and then getting the content for each and appending */
+  .then(
+    /* Now we get the data for our current cheatsheet and start creating the dom shell for each block and then getting the content for each and appending */
     cheatsheetsRef
       .get()
       .then(function(doc) {
@@ -39,7 +41,7 @@ proxyRef /*Get our current proxyserver prepend*/
               return item.metadata;
             });
             if (useInProd[0] && useInProd[0].metadata.useInProduction == true) {
-              blocksForProduction.push(i); //create an array of values (strings that match from orderarray) and then later foreach over defaultorder and if exists in this new array then do the appending
+              blocksForProduction.push(i); //create an array of values representing the blocks we actually are using on this page.
             }
           });
           return data;
@@ -48,14 +50,30 @@ proxyRef /*Get our current proxyserver prepend*/
         }
       })
       .then(data => {
-        //   console.log(blocksForProduction);
-
+        //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
         defaultOrderForBlocks.forEach(block => {
           if (blocksForProduction.includes(block)) {
             buildBlock(block);
           }
         });
-        ebscoBlockInitialize(data.ebsco_api_a9h);
+        blocksForProduction.forEach(blockName => {
+          if (blockName === "ebsco_api_a9h") {
+            ebscoBlockInitialize(data.ebsco_api_a9h);
+          }
+          if (blockName === "weblinks_block") {
+            console.log("weblinks_blockINIT");
+          }
+          if (blockName === "citation_styles") {
+            console.log("citation_stylesINIT");
+          }
+          if (blockName === "primo_article_searches") {
+            console.log("primo_article_searchesINIT");
+          }
+          if (blockName === "primo_book_searches") {
+            console.log("primo_book_searchesINIT");
+          }
+
+        });
       })
       .catch(function(error) {
         console.log("Error getting document:", error);
@@ -63,7 +81,6 @@ proxyRef /*Get our current proxyserver prepend*/
   );
 
 function buildBlock(blockDisplayName, blockFirestoreName) {
-  // console.log("BUILDBLOCK!", blockDisplayName);
   const blockShell = `<div class="cheatsheet-block"><h3>${blockDisplayName}</h3><div id="${blockDisplayName}-interior"></div></div>`;
   const domElement = document.getElementById("cheatsheetsBlockWrapper");
   domElement.insertAdjacentHTML("beforeend", blockShell);
@@ -72,8 +89,10 @@ function buildBlock(blockDisplayName, blockFirestoreName) {
 //the function responsible for getting the ebsco data and appending it to the dom.
 function ebscoBlockInitialize(blockData) {
   console.log(blockData);
-  let initDom = new CheatsheetsBlock("ebsco", true);
+
+  let initDom = new CheatsheetsNeedUL("ebsco");
   initDom.getToAppending();
+
   let getEbscoInfo = docu => {
     db.collection("ebsco-searches")
       .doc(docu)
@@ -109,18 +128,13 @@ class CheatsheetsBlockContent {
     domsn.insertAdjacentHTML("beforeend", this.blockContent);
   }
 }
-class CheatsheetsBlock {
-  /* TODO: really what I'm going to want to do is look in the cheatsheets firestore for what's to be displayed and the order and set that up on load. Prob in drupal will need to the #cheatsheetWrapper or something already there. */
-  constructor(name, wantUL) {
+class CheatsheetsNeedUL {
+  constructor(name) {
     this.name = name;
-    this.wantUL = wantUL;
   }
   getToAppending() {
-    if (this.wantUL) {
-      this.blockContent = `<ul id="${this.name}-ul"></ul>`;
-      // this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul></div>`;
-    } else
-      this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"> hiii</div>`;
+    this.blockContent = `<ul id="${this.name}-ul"></ul>`;
+    // this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul></div>`;
     var domsn = document.getElementById(`ebsco_api_a9h-interior`);
     domsn.insertAdjacentHTML("beforeend", this.blockContent);
   }
