@@ -64,7 +64,7 @@ defaultOrderRef
 
 function buildBlock(blockDisplayName, blockFirestoreName) {
   // console.log("BUILDBLOCK!", blockDisplayName);
-  let blockShell = `<div class="cheatsheet-block"><h3>${blockDisplayName}</h3></div>`;
+  let blockShell = `<div class="cheatsheet-block"><h3>${blockDisplayName}</h3><div id="${blockDisplayName}-interior"></div></div>`;
   let domElement = document.getElementById("cheatsheetsBlockWrapper");
   domElement.insertAdjacentHTML("beforeend", blockShell);
 }

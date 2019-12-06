@@ -85,28 +85,32 @@ okay so here is where I want to create my logic for an ebsco block. Which consis
           console.log("Error getting document:", error);
         })
     );
-})();
 
-class CheatsheetsBlockContent {
-  constructor(blockContent, name) {
-    this.blockContent = blockContent;
-    this.name = name;
+
+    
+
+  })();
+
+  class CheatsheetsBlockContent {
+    constructor(blockContent, name) {
+      this.blockContent = blockContent;
+      this.name = name;
+    }
+    getToAppending() {
+      var domsn = document.getElementById(`${this.name}-ul`);
+      domsn.insertAdjacentHTML("beforeend", this.blockContent);
+    }
   }
-  getToAppending() {
-    var domsn = document.getElementById(`${this.name}-ul`);
-    domsn.insertAdjacentHTML("beforeend", this.blockContent);
+  class CheatsheetsBlock {
+    /* TODO: really what I'm going to want to do is look in the cheatsheets firestore for what's to be displayed and the order and set that up on load. Prob in drupal will need to the #cheatsheetWrapper or something already there. */
+    constructor(name, wantUL) {
+      this.name = name;
+      this.wantUL = wantUL
+    }
+    getToAppending() {
+      if (this.wantUL){this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul></div>`;}
+      else this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"> hiii</div>`
+      var domsn = document.getElementById(`cheatsheetsBlockWrapper`);
+      domsn.insertAdjacentHTML("beforeend", this.blockContent);
+    }
   }
-}
-class CheatsheetsBlock {
-  /* TODO: really what I'm going to want to do is look in the cheatsheets firestore for what's to be displayed and the order and set that up on load. Prob in drupal will need to the #cheatsheetWrapper or something already there. */
-  constructor(name, wantUL) {
-    this.name = name;
-    this.wantUL = wantUL
-  }
-  getToAppending() {
-    if (this.wantUL){this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul></div>`;}
-    else this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"> hiii</div>`
-    var domsn = document.getElementById(`cheatsheetsBlockWrapper`);
-    domsn.insertAdjacentHTML("beforeend", this.blockContent);
-  }
-}
