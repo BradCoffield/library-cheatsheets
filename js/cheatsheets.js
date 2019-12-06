@@ -3,6 +3,7 @@ const cheatsheetPage = document.querySelector(".subjectName").id;
 
 const cheatsheetsRef = db2.collection("Cheatsheets").doc(cheatsheetPage);
 const defaultOrderRef = db2.collection("defaultBlockOrder").doc("defaultOrder");
+const weblinksContentRef = db2.collection("Weblinks")
 
 let proxyRef = db.collection("proxyServerUrl");
 let proxyPrepend;
@@ -61,7 +62,8 @@ proxyRef /* Get our current proxyserver prepend */
             ebscoBlockInitialize(data.ebsco_api_a9h);
           }
           if (blockName === "weblinks_block") {
-            console.log("weblinks_blockINIT");
+            
+            weblinksBlockInitialize() //don't need args for this one
           }
           if (blockName === "citation_styles") {
             console.log("citation_stylesINIT");
@@ -116,6 +118,29 @@ function ebscoBlockInitialize(blockData) {
   bread.forEach(butter => {
     getEbscoInfo(butter.uid);
   });
+}
+
+function weblinksBlockInitialize(){
+    let weblinksForThisCheatsheet = []
+    console.log("weblinks_blockINIT");
+    /* need to grab the weblinks from different ref and then go over each one to find the ones with this subject and those get appended */
+    weblinksContentRef.get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        console.log(doc.data().AssociatedSubjects)
+        if (doc.data().AssociatedSubjects.some(() => {
+            return "Literature"
+        })){weblinksForThisCheatsheet.push(doc.data())}
+      });
+      return
+    }).then(() => {
+        /* So, at this point we have weblinksforthischeatsheet populated with the data for each link we actually want */
+        console.log(weblinksForThisCheatsheet, "EH")
+        let initDom = new CheatsheetsNeedUL("weblinks")
+        initDom.getToAppending()
+        
+    })
+
 }
 
 class CheatsheetsBlockContent {
