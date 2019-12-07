@@ -92,7 +92,7 @@ function buildBlock(blockDisplayName, blockFirestoreName) {
 function ebscoBlockInitialize(blockData) {
   console.log(blockData);
 
-  let initDom = new CheatsheetsNeedUL("ebsco");
+  let initDom = new CheatsheetsNeedUL("ebsco_api_a9h");
   initDom.getToAppending();
 
   let getEbscoInfo = docu => {
@@ -105,7 +105,7 @@ function ebscoBlockInitialize(blockData) {
           let resultBase = doc.data().results[i];
           // console.log(resultBase);
           const forAppending = `<li class="ebsco-li"><a href="${proxyPrepend}${resultBase.permalink}">${resultBase.articleTitle}</a></li>`;
-          let tt = new CheatsheetsBlockContent(forAppending, "ebsco");
+          let tt = new CheatsheetsBlockContent(forAppending, "ebsco_api_a9h");
           tt.getToAppending();
         }
       });
@@ -136,8 +136,19 @@ function weblinksBlockInitialize(){
     }).then(() => {
         /* So, at this point we have weblinksforthischeatsheet populated with the data for each link we actually want */
         console.log(weblinksForThisCheatsheet, "EH")
-        let initDom = new CheatsheetsNeedUL("weblinks")
+        let initDom = new CheatsheetsNeedUL("weblinks_block")
         initDom.getToAppending()
+        weblinksForThisCheatsheet.forEach((linkData) => {
+          let linkDescription,linkDisplayName,linkLink
+          if (linkData.Description == undefined){ linkDescription=""}else  {linkDescription = linkData.Description;} 
+          if (!linkData.displayName){return} else linkDisplayName = linkData.displayName;
+          if (!linkData.link) {return} else linkLink = linkData.link;
+
+          let forDom = `<li><a href="${linkLink}">${linkDisplayName}</a><p>${linkDescription}</p></li>`
+          let weblinksContent = new CheatsheetsBlockContent(forDom, "weblinks_block")
+          weblinksContent.getToAppending()
+        })
+        
         
     })
 
@@ -160,7 +171,7 @@ class CheatsheetsNeedUL {
   getToAppending() {
     this.blockContent = `<ul id="${this.name}-ul"></ul>`;
     // this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul></div>`;
-    var domsn = document.getElementById(`ebsco_api_a9h-interior`);
+    var domsn = document.getElementById(`${this.name}-interior`);
     domsn.insertAdjacentHTML("beforeend", this.blockContent);
   }
 }
