@@ -1,15 +1,17 @@
-
 const cheatsheetPage = document.querySelector(".subjectName").id;
 
 const cheatsheetsRef = db2.collection("Cheatsheets").doc(cheatsheetPage);
 const defaultOrderRef = db2.collection("defaultBlockOrder").doc("defaultOrder");
-const weblinksContentRef = db2.collection("Weblinks")
+const weblinksContentRef = db2.collection("Weblinks");
+const citationStylesRef = db2.collection("CitationStylesRepository");
 
 let proxyRef = db.collection("proxyServerUrl");
 let proxyPrepend;
 
 let defaultOrderForBlocks = [];
 let blocksForProduction = [];
+let citationStylesWanted = [];
+let rawSheetData = [];
 
 proxyRef /* Get our current proxyserver prepend */
   .get()
@@ -36,6 +38,7 @@ proxyRef /* Get our current proxyserver prepend */
         if (doc.exists) {
           const data = doc.data();
           const keys = Object.keys(data);
+          rawSheetData = data;
 
           keys.forEach(i => {
             const useInProd = data[i].filter(item => {
@@ -62,11 +65,10 @@ proxyRef /* Get our current proxyserver prepend */
             ebscoBlockInitialize(data.ebsco_api_a9h);
           }
           if (blockName === "weblinks_block") {
-            
-            weblinksBlockInitialize() //don't need args for this one
+            weblinksBlockInitialize(); //don't need args for this one
           }
           if (blockName === "citation_styles") {
-            console.log("citation_stylesINIT");
+            citationStylesBlockInitialize();
           }
           if (blockName === "primo_article_searches") {
             console.log("primo_article_searchesINIT");
@@ -74,7 +76,6 @@ proxyRef /* Get our current proxyserver prepend */
           if (blockName === "primo_book_searches") {
             console.log("primo_book_searchesINIT");
           }
-
         });
       })
       .catch(function(error) {
@@ -89,8 +90,9 @@ function buildBlock(blockDisplayName, blockFirestoreName) {
 }
 
 //the function responsible for getting the ebsco data and appending it to the dom.
+//this is going to get more complicated if I have a slider on the frontend but will deal with that then, if need be. It's doable, of course.
 function ebscoBlockInitialize(blockData) {
-  console.log(blockData);
+  // console.log(blockData);
 
   let initDom = new CheatsheetsNeedUL("ebsco_api_a9h");
   initDom.getToAppending();
@@ -100,7 +102,7 @@ function ebscoBlockInitialize(blockData) {
       .doc(docu)
       .get()
       .then(doc => {
-        console.log("GEI", doc.data());
+        // console.log("GEI", doc.data());
         for (let i = 0; i < 10; i++) {
           let resultBase = doc.data().results[i];
           // console.log(resultBase);
@@ -120,38 +122,93 @@ function ebscoBlockInitialize(blockData) {
   });
 }
 
-function weblinksBlockInitialize(){
-    let weblinksForThisCheatsheet = []
-    console.log("weblinks_blockINIT");
-    /* need to grab the weblinks from different ref and then go over each one to find the ones with this subject and those get appended */
-    weblinksContentRef.get()
+function weblinksBlockInitialize() {
+  let weblinksForThisCheatsheet = [];
+  // console.log("weblinks_blockINIT");
+  /* need to grab the weblinks from different ref and then go over each one to find the ones with this subject and those get appended */
+  weblinksContentRef
+    .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
-        console.log(doc.data().AssociatedSubjects)
-        if (doc.data().AssociatedSubjects.some(() => {
-            return "Literature"
-        })){weblinksForThisCheatsheet.push(doc.data())}
+        // console.log(doc.data().AssociatedSubjects);
+        if (
+          doc.data().AssociatedSubjects.some(() => {
+            return "Literature";
+          })
+        ) {
+          weblinksForThisCheatsheet.push(doc.data());
+        }
       });
-      return
-    }).then(() => {
-        /* So, at this point we have weblinksforthischeatsheet populated with the data for each link we actually want */
-        console.log(weblinksForThisCheatsheet, "EH")
-        let initDom = new CheatsheetsNeedUL("weblinks_block")
-        initDom.getToAppending()
-        weblinksForThisCheatsheet.forEach((linkData) => {
-          let linkDescription,linkDisplayName,linkLink
-          if (linkData.Description == undefined){ linkDescription=""}else  {linkDescription = linkData.Description;} 
-          if (!linkData.displayName){return} else linkDisplayName = linkData.displayName;
-          if (!linkData.link) {return} else linkLink = linkData.link;
-
-          let forDom = `<li><a href="${linkLink}">${linkDisplayName}</a><p>${linkDescription}</p></li>`
-          let weblinksContent = new CheatsheetsBlockContent(forDom, "weblinks_block")
-          weblinksContent.getToAppending()
-        })
-        
-        
+      return;
     })
+    .then(() => {
+      /* So, at this point we have weblinksforthischeatsheet populated with the data for each link we actually want */
+      console.log(weblinksForThisCheatsheet, "EH");
+      let initDom = new CheatsheetsNeedUL("weblinks_block");
+      initDom.getToAppending();
+      weblinksForThisCheatsheet.forEach(linkData => {
+        let linkDescription, linkDisplayName, linkLink;
+        if (linkData.Description == undefined) {
+          linkDescription = "";
+        } else {
+          linkDescription = linkData.Description;
+        }
+        if (!linkData.displayName) {
+          return;
+        } else linkDisplayName = linkData.displayName;
+        if (!linkData.link) {
+          return;
+        } else linkLink = linkData.link;
 
+        let forDom = `<li><a href="${linkLink}">${linkDisplayName}</a><p>${linkDescription}</p></li>`;
+        let weblinksContent = new CheatsheetsBlockContent(
+          forDom,
+          "weblinks_block"
+        );
+        weblinksContent.getToAppending();
+      });
+    });
+}
+
+function citationStylesBlockInitialize() {
+  // Getting the array of styles that are wanted from this particular sheet.
+  let sheetCitationStylesArr = rawSheetData["citation_styles"].filter(arr => {
+    return arr["stylesWanted"];
+  });
+
+  sheetCitationStylesArr[0].stylesWanted.forEach(styleWanted => {
+    citationStylesRef
+      .doc(styleWanted)
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          let styleData = doc.data();
+
+          let contentForDom = `<h3>${styleData.styleDisplayName}</h3><p class="heading-description">${styleData.descriptionOfStyle}</p><p><h4>Available in the library</h4><ul><li><img src="${styleData.styleBook.imgURL}" alt="Book cover of MLA Handbook"></img>${styleData.styleBook.bookDescription} It is available for use <a href="${styleData.styleBook.primoURL}" target="_blank">in the library.</a></li></ul></p><p><h4>Helpful Links</h4><ul><li>hi<li></ul></p>`
+
+          let domStuff = new CheatsheetsBlockContentNoUL(
+            contentForDom,
+            "citation_styles"
+          );
+          domStuff.getToAppending();
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      });
+  });
+}
+
+class CheatsheetsBlockContentNoUL {
+  constructor(blockContent, name) {
+    this.blockContent = blockContent;
+    this.name = name;
+  }
+  getToAppending() {
+    var domsn = document.getElementById(`${this.name}-interior`);
+    domsn.insertAdjacentHTML("beforeend", this.blockContent);
+  }
 }
 
 class CheatsheetsBlockContent {
