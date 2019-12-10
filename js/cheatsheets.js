@@ -1,6 +1,12 @@
 const getProxy = require("./modules/db/get-proxy-prepend");
 const getDefaultOrder = require("./modules/db/get-default-order");
 const getSingleCheatsheet = require("./modules/db/get-single-cheatsheet");
+const blocksForCheatsheet = require("./modules/services/blocks-for-this-cheatsheet");
+const buildBlockShell = require("./modules/services/buildBlockShell");
+
+const NeedUL = require("./modules/domClasses/needUL")
+const BlockContent = require("./modules/domClasses/blockContent")
+ 
 
 class CheatsheetsBlockContent {
   constructor(blockContent, name) {
@@ -12,93 +18,59 @@ class CheatsheetsBlockContent {
     domsn.insertAdjacentHTML("beforeend", this.blockContent);
   }
 }
-class CheatsheetsNeedUL {
-  constructor(name) {
-    this.name = name;
-  }
-  getToAppending() {
-    this.blockContent = `<ul id="${this.name}-ul"></ul>`;
-    // this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul></div>`;
-    var domsn = document.getElementById(`${this.name}-interior`);
-    domsn.insertAdjacentHTML("beforeend", this.blockContent);
-  }
-}
-
-
+// class CheatsheetsNeedUL {
+//   constructor(name) {
+//     this.name = name;
+//   }
+//   getToAppending() {
+//     this.blockContent = `<ul id="${this.name}-ul"></ul>`;
+//     // this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul></div>`;
+//     var domsn = document.getElementById(`${this.name}-interior`);
+//     domsn.insertAdjacentHTML("beforeend", this.blockContent);
+//   }
+// }
 
 (async () => {
   const proxyPrepend = await getProxy();
-   const defaultOrderForBlocks = await getDefaultOrder();
-   const dataForThisCheatsheet = await getSingleCheatsheet();
-  
-   
-
-   let blocksForProduction = [];
-
-
- 
-   const keys = Object.keys(dataForThisCheatsheet);
-   console.log(dataForThisCheatsheet);
-   console.log(keys);
-   keys.forEach(i => {
-    const useInProd = dataForThisCheatsheet[i].filter(item => {
-      return item.metadata;
-    });
-    if (useInProd[0] && useInProd[0].metadata.useInProduction == true) {
-      blocksForProduction.push(i); //create an array of values representing the blocks we actually are using on this page.
-    }
-  });
-  
-  const cheatsheetPage = document.querySelector(".subjectName").id;
-
-  const cheatsheetsRef = db2.collection("Cheatsheets").doc(cheatsheetPage);
+  const defaultOrderForBlocks = await getDefaultOrder();
+  const dataForThisCheatsheet = await getSingleCheatsheet();
+  const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
 
   const weblinksContentRef = db2.collection("Weblinks");
 
-  /* Now we get the data for our current cheatsheet and start creating the dom shell for each block and then getting the content for each and appending */
-  
-      //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
-      defaultOrderForBlocks.forEach(block => {
-        if (blocksForProduction.includes(block)) {
-          buildBlock(block);
-        }
-      });
-      blocksForProduction.forEach(blockName => {
-        if (blockName === "ebsco_api_a9h") {
-          ebscoBlockInitialize(dataForThisCheatsheet.ebsco_api_a9h);
-        }
-        if (blockName === "weblinks_block") {
-          weblinksBlockInitialize(); //don't need args for this one
-        }
-        if (blockName === "citation_styles") {
-          // console.log("citation_stylesINIT");
-        }
-        if (blockName === "primo_article_searches") {
-          // console.log("primo_article_searchesINIT");
-        }
-        if (blockName === "primo_book_searches") {
-          // console.log("primo_book_searchesINIT");
-        }
-      });
-   
-   
+  //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
+  defaultOrderForBlocks.forEach(block => {
+    if (blocksForProduction.includes(block)) {
+      buildBlockShell(block);
+    }
+  });
 
-  function buildBlock(blockDisplayName, blockFirestoreName) {
-    const blockShell = `<div class="cheatsheet-block"><h3>${blockDisplayName}</h3><div id="${blockDisplayName}-interior"></div></div>`;
-    const domElement = document.getElementById("cheatsheetsBlockWrapper");
-    domElement.insertAdjacentHTML("beforeend", blockShell);
-  }
+  blocksForProduction.forEach(blockName => {
+    if (blockName === "ebsco_api_a9h") {
+      ebscoBlockInitialize(dataForThisCheatsheet.ebsco_api_a9h);
+    }
+    if (blockName === "weblinks_block") {
+      weblinksBlockInitialize(); //don't need args for this one
+    }
+    if (blockName === "citation_styles") {
+      // console.log("citation_stylesINIT");
+    }
+    if (blockName === "primo_article_searches") {
+      // console.log("primo_article_searchesINIT");
+    }
+    if (blockName === "primo_book_searches") {
+      // console.log("primo_book_searchesINIT");
+    }
+  });
 
   //the function responsible for getting the ebsco data and appending it to the dom.
   function ebscoBlockInitialize(blockData) {
-    console.log(blockData);
-
-    let initDom = new CheatsheetsNeedUL("ebsco_api_a9h");
+    let initDom = new NeedUL("ebsco_api_a9h");
     initDom.getToAppending();
 
-    let getEbscoInfo = docu => {
+    let getEbscoInfo = document => {
       db.collection("ebsco-searches")
-        .doc(docu)
+        .doc(document)
         .get()
         .then(doc => {
           // console.log("GEI", doc.data());
@@ -145,7 +117,7 @@ class CheatsheetsNeedUL {
       .then(() => {
         /* So, at this point we have weblinksforthischeatsheet populated with the data for each link we actually want */
         // console.log(weblinksForThisCheatsheet, "EH");
-        let initDom = new CheatsheetsNeedUL("weblinks_block");
+        let initDom = new NeedUL("weblinks_block");
         initDom.getToAppending();
         weblinksForThisCheatsheet.forEach(linkData => {
           let linkDescription, linkDisplayName, linkLink;
@@ -170,6 +142,4 @@ class CheatsheetsNeedUL {
         });
       });
   }
-
- 
 })();
