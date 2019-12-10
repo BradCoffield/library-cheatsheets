@@ -1,6 +1,6 @@
 /* copied before the real module shenanigans and wrap async the whole thing */const hello = require("./modules/controllers/ebsco_api");
 hello()
-const proxy = require("./modules/services/get-proxy-prepend");
+const proxy = require("./modules/db/get-proxy-prepend");
 
 let proxyPrepend = async () => {
   try {
