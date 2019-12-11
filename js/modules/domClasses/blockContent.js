@@ -4,8 +4,7 @@ class CheatsheetsBlockContent {
       this.name = name;
     }
     getToAppending() {
-        console.log("block content", this.blockContent
-        );
+        
       var domsn = document.getElementById(`${this.name}-ul`);
       domsn.insertAdjacentHTML("beforeend", this.blockContent);
     }

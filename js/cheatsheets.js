@@ -4,31 +4,9 @@ const getSingleCheatsheet = require("./modules/db/get-single-cheatsheet");
 const blocksForCheatsheet = require("./modules/services/blocks-for-this-cheatsheet");
 const buildBlockShell = require("./modules/services/buildBlockShell");
 
-const NeedUL = require("./modules/domClasses/needUL")
-const BlockContent = require("./modules/domClasses/blockContent")
- 
+const NeedUL = require("./modules/domClasses/needUL");
+const BlockContent = require("./modules/domClasses/blockContent");
 
-class CheatsheetsBlockContent {
-  constructor(blockContent, name) {
-    this.blockContent = blockContent;
-    this.name = name;
-  }
-  getToAppending() {
-    var domsn = document.getElementById(`${this.name}-ul`);
-    domsn.insertAdjacentHTML("beforeend", this.blockContent);
-  }
-}
-// class CheatsheetsNeedUL {
-//   constructor(name) {
-//     this.name = name;
-//   }
-//   getToAppending() {
-//     this.blockContent = `<ul id="${this.name}-ul"></ul>`;
-//     // this.blockContent = `<div id="${this.name}-block" class="cheatsheetBlock"><ul id="${this.name}-ul"></ul></div>`;
-//     var domsn = document.getElementById(`${this.name}-interior`);
-//     domsn.insertAdjacentHTML("beforeend", this.blockContent);
-//   }
-// }
 
 (async () => {
   const proxyPrepend = await getProxy();
@@ -78,7 +56,7 @@ class CheatsheetsBlockContent {
             let resultBase = doc.data().results[i];
             // console.log(resultBase);
             const forAppending = `<li class="ebsco-li"><a href="${proxyPrepend}${resultBase.permalink}">${resultBase.articleTitle}</a></li>`;
-            let tt = new CheatsheetsBlockContent(forAppending, "ebsco_api_a9h");
+            let tt = new BlockContent(forAppending, "ebsco_api_a9h");
             tt.getToAppending();
           }
         });
@@ -134,10 +112,7 @@ class CheatsheetsBlockContent {
           } else linkLink = linkData.link;
 
           let forDom = `<li><a href="${linkLink}">${linkDisplayName}</a><p>${linkDescription}</p></li>`;
-          let weblinksContent = new CheatsheetsBlockContent(
-            forDom,
-            "weblinks_block"
-          );
+          let weblinksContent = new BlockContent(forDom, "weblinks_block");
           weblinksContent.getToAppending();
         });
       });
