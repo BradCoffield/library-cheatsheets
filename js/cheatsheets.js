@@ -1,11 +1,20 @@
+/* db */
 const getProxy = require("./modules/db/get-proxy-prepend");
 const getDefaultOrder = require("./modules/db/get-default-order");
 const getSingleCheatsheet = require("./modules/db/get-single-cheatsheet");
+const rmcLibDataCollection = require("./modules/db/rmc-lib-data-single-collection");
+const rmcLibDataDocument = require("./modules/db/rmc-lib-data-single-document");
+
+/* services */
 const blocksForCheatsheet = require("./modules/services/blocks-for-this-cheatsheet");
 const buildBlockShell = require("./modules/services/buildBlockShell");
 
+/* classes */
 const NeedUL = require("./modules/domClasses/needUL");
 const BlockContent = require("./modules/domClasses/blockContent");
+
+/* block creation */
+const createEbscoApiBlock = require('./modules/blockCreation/ebsco_api');
 
 
 (async () => {
@@ -13,6 +22,7 @@ const BlockContent = require("./modules/domClasses/blockContent");
   const defaultOrderForBlocks = await getDefaultOrder();
   const dataForThisCheatsheet = await getSingleCheatsheet();
   const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
+
 
   const weblinksContentRef = db2.collection("Weblinks");
 
@@ -43,32 +53,32 @@ const BlockContent = require("./modules/domClasses/blockContent");
 
   //the function responsible for getting the ebsco data and appending it to the dom.
   function ebscoBlockInitialize(blockData) {
+    // get started by adding to the dom the UL we need to be there so we can append a bunch of li's
     let initDom = new NeedUL("ebsco_api_a9h");
     initDom.getToAppending();
 
-    let getEbscoInfo = document => {
-      db.collection("ebsco-searches")
-        .doc(document)
-        .get()
-        .then(doc => {
-          // console.log("GEI", doc.data());
-          for (let i = 0; i < 10; i++) {
-            let resultBase = doc.data().results[i];
-            // console.log(resultBase);
-            const forAppending = `<li class="ebsco-li"><a href="${proxyPrepend}${resultBase.permalink}">${resultBase.articleTitle}</a></li>`;
-            let tt = new BlockContent(forAppending, "ebsco_api_a9h");
-            tt.getToAppending();
-          }
-        });
+    let getEbscoAndAppend = async document => {
+      let ebscoDoc = await rmcLibDataDocument("ebsco-searches", document);
+
+      for (let i = 0; i < 10; i++) {
+        let resultBase = ebscoDoc.results[i];
+
+        const forAppending = `<li class="ebsco-li"><a href="${proxyPrepend}${resultBase.permalink}">${resultBase.articleTitle}</a></li>`;
+        let tt = new BlockContent(forAppending, "ebsco_api_a9h");
+        tt.getToAppending();
+      }
     };
-    // we only want to work with arrays that have a uid, which means it's a saved search reference.
-    let bread = blockData.filter(arr => {
-      return arr.uid;
-    });
-    //   grab the uid and run the db get function for it
-    bread.forEach(butter => {
-      getEbscoInfo(butter.uid);
-    });
+
+    // Grabs the uid from the desired ebsco searches and then sends them to be gotten from rmc-lib-data
+    blockData
+      .filter(arr => {
+        return arr.uid;
+      })
+      .forEach(butter => {
+        getEbscoAndAppend(butter.uid);
+      });
+
+    
   }
 
   // gonna need to figure out how to make it so one function will work for all citation styles. like consolidate what content is included. Don't want sub functions for each...
