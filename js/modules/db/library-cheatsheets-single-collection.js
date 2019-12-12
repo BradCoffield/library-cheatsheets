@@ -1,6 +1,6 @@
 module.exports = collectionName => {
   let allTheDocuments = [];
-  return db
+  return db2
     .collection(collectionName)
     .get()
     .then(function(querySnapshot) {

@@ -1,7 +1,9 @@
 const NeedUL = require("../domClasses/needUL");
 const BlockContent = require("../domClasses/blockContent");
+const rmcLibDataDocument = require("../db/rmc-lib-data-single-document");
+ 
 
-module.exports = blockData => {
+module.exports = (proxyPrepend, blockData) => {
   //the function responsible for getting the ebsco data and appending it to the dom.
 
   // get started by adding to the dom the UL we need to be there so we can append a bunch of li's
