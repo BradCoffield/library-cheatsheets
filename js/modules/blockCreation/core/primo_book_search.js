@@ -29,7 +29,7 @@ module.exports = async blockData => {
     .forEach(butter => {
       uidsWanted.push(butter.uid);
     });
-  console.log(uidsWanted);
+  // console.log(uidsWanted);
 
   function doThings(results, randoms) {
     let baseDom = document.getElementById("primo_book_searches-interior");
@@ -39,7 +39,7 @@ module.exports = async blockData => {
     let i = 0;
     for (i; totalDisplayed < howManyWeWant; i++) {
       // console.log(results.rawData[results.ourRandoms[i]].pnx.search);
-console.log(randoms[i], results[randoms[i]]);
+// console.log(randoms[i], results[randoms[i]]);
       let theIsbn = results[randoms[i]].isbn[0];
       let theTitle = results[randoms[i]].title;
       let theCatalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${
@@ -59,7 +59,7 @@ console.log(randoms[i], results[randoms[i]]);
 
   uidsWanted.forEach(async uid => {
     let bookResults = await rmcLibDataDocument("primo-book-searches", uid);
-    console.log(bookResults);
+    // console.log(bookResults);
     const rawData = bookResults.results;
     const getRandomNumbers = function(howMany, upperLimit) {
       var limit = howMany,
