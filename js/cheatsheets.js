@@ -16,9 +16,9 @@ const NeedUL = require("./modules/domClasses/needUL");
 const BlockContent = require("./modules/domClasses/blockContent");
 
 /* block creation */
-const createEbscoApiBlock = require("./modules/blockCreation/ebsco_api");
-const createWeblinksBlock = require("./modules/blockCreation/weblinks");
-const createPrimoBooksBlock = require("./modules/blockCreation/primo_book_search");
+const createEbscoApiBlock = require("./modules/blockCreation/core/ebsco_api");
+const createWeblinksBlock = require("./modules/blockCreation/core/weblinks");
+const createPrimoBooksBlock = require("./modules/blockCreation/core/primo_book_search");
 
 (async () => {
   const proxyPrepend = await getProxy();
