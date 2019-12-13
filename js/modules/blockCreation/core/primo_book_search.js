@@ -1,9 +1,9 @@
 /* NOTE: this is mostly but not compeltely the code from PRIMO-DYNAMIC_NEWBOOKS. Seems to be working without out the retrying shenanigans.... */
 
 
-const NeedUL = require("../domClasses/needUL");
-const BlockContent = require("../domClasses/blockContent");
-const rmcLibDataDocument = require("../db/rmc-lib-data-single-document");
+const NeedUL = require("../../domClasses/needUL");
+const BlockContent = require("../../domClasses/blockContent");
+const rmcLibDataDocument = require("../../db/rmc-lib-data-single-document");
 
 module.exports = async blockData => {
 //   let initDom = new NeedUL("primo_book_searches");
