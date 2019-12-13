@@ -18,12 +18,14 @@ const BlockContent = require("./modules/domClasses/blockContent");
 /* block creation */
 const createEbscoApiBlock = require("./modules/blockCreation/ebsco_api");
 const createWeblinksBlock = require("./modules/blockCreation/weblinks");
+const createPrimoBooksBlock = require("./modules/blockCreation/primo_book_search");
 
 (async () => {
   const proxyPrepend = await getProxy();
   const defaultOrderForBlocks = await getDefaultOrder();
   const dataForThisCheatsheet = await getSingleCheatsheet();
   const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
+  console.log(dataForThisCheatsheet)
 
   //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
   defaultOrderForBlocks.forEach(block => {
@@ -48,6 +50,8 @@ const createWeblinksBlock = require("./modules/blockCreation/weblinks");
     }
     if (blockName === "primo_book_searches") {
       // console.log("primo_book_searchesINIT");
+      createPrimoBooksBlock(dataForThisCheatsheet.primo_book_searches);
+
     }
   });
 })();
