@@ -1,5 +1,5 @@
 const BlockContent = require("../domClasses/blockContent");
-const cheatsheetsDocument = require("./modules/db/library-cheatsheets-single-document");
+const cheatsheetsDocument = require("../db/library-cheatsheets-single-document");
 
 module.exports = rawSheetData => {
   (async () => {
@@ -7,11 +7,18 @@ module.exports = rawSheetData => {
       return arr["stylesWanted"];
     });
 
-    let citationStyleData = await cheatsheetsDocument(
-      "CitationStylesRepository",
-      sheetCitationStylesArr[0].stylesWanted
-    );
-    console.log(citationStyleData)
+    sheetCitationStylesArr[0].stylesWanted.forEach(async styleWanted => {
+      let citationStyleData = await cheatsheetsDocument(
+        "CitationStylesRepository",
+        styleWanted
+      );
+      let contentForDom = `<h3>${citationStyleData.styleDisplayName}</h3><p class="heading-description">${citationStyleData.descriptionOfStyle}</p><p><h4>Available in the library</h4><ul><li><img src="${citationStyleData.styleBook.imgURL}" alt="Book cover of MLA Handbook"></img>${citationStyleData.styleBook.bookDescription} It is available for use <a href="${citationStyleData.styleBook.primoURL}" target="_blank">in the library.</a></li></ul></p><p><h4>Helpful Links</h4><ul><li>hi<li></ul></p>`;
+
+      let domStuff = new BlockContent(contentForDom, "citation_styles-interior");
+      domStuff.getToAppending();
+    });
+    
+  
     // sheetCitationStylesArr[0].stylesWanted.forEach(styleWanted => {
     //   citationStyleData.then(function(doc) {
     //     if (doc.exists) {
