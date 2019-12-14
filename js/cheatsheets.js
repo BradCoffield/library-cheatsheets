@@ -18,7 +18,7 @@ const BlockContent = require("./modules/domClasses/blockContent");
 /* block creation */
 const createEbscoApiBlock = require("./modules/blockCreation/ebsco_api");
 const createWeblinksBlock = require("./modules/blockCreation/weblinks");
-
+const createCitationBlock = require("./modules/blockCreation/citation_help");
 (async () => {
   const proxyPrepend = await getProxy();
   const defaultOrderForBlocks = await getDefaultOrder();
@@ -42,6 +42,7 @@ const createWeblinksBlock = require("./modules/blockCreation/weblinks");
     }
     if (blockName === "citation_styles") {
       // console.log("citation_stylesINIT");
+      createCitationBlock(dataForThisCheatsheet);
     }
     if (blockName === "primo_article_searches") {
       // console.log("primo_article_searchesINIT");
