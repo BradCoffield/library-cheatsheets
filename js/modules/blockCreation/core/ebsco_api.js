@@ -1,6 +1,6 @@
-const NeedUL = require("../domClasses/needUL");
-const BlockContent = require("../domClasses/blockContent");
-const rmcLibDataDocument = require("../db/rmc-lib-data-single-document");
+const NeedUL = require("../../domClasses/needUL");
+const BlockContent = require("../../domClasses/blockContent");
+const rmcLibDataDocument = require("../../db/rmc-lib-data-single-document");
  
 
 module.exports = (proxyPrepend, blockData) => {

@@ -16,14 +16,17 @@ const NeedUL = require("./modules/domClasses/needUL");
 const BlockContent = require("./modules/domClasses/blockContent");
 
 /* block creation */
-const createEbscoApiBlock = require("./modules/blockCreation/ebsco_api");
-const createWeblinksBlock = require("./modules/blockCreation/weblinks");
-const createCitationBlock = require("./modules/blockCreation/citation_help");
+const createEbscoApiBlock = require("./modules/blockCreation/core/ebsco_api");
+const createWeblinksBlock = require("./modules/blockCreation/core/weblinks");
+const createPrimoBooksBlock = require("./modules/blockCreation/core/primo_book_search");
+const createPrimoArticlesBlock = require("./modules/blockCreation/core/primo_article_search");
+
 (async () => {
   const proxyPrepend = await getProxy();
   const defaultOrderForBlocks = await getDefaultOrder();
   const dataForThisCheatsheet = await getSingleCheatsheet();
   const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
+  console.log(dataForThisCheatsheet);
 
   //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
   defaultOrderForBlocks.forEach(block => {
@@ -45,10 +48,11 @@ const createCitationBlock = require("./modules/blockCreation/citation_help");
       createCitationBlock(dataForThisCheatsheet);
     }
     if (blockName === "primo_article_searches") {
-      // console.log("primo_article_searchesINIT");
+      createPrimoArticlesBlock(dataForThisCheatsheet.primo_article_searches)
     }
     if (blockName === "primo_book_searches") {
       // console.log("primo_book_searchesINIT");
+      createPrimoBooksBlock(dataForThisCheatsheet.primo_book_searches);
     }
   });
 })();

@@ -1,5 +1,5 @@
-const NeedUL = require("../domClasses/needUL");
-const BlockContent = require("../domClasses/blockContent");
+const NeedUL = require("../../domClasses/needUL");
+const BlockContent = require("../../domClasses/blockContent");
 
 module.exports = () => {
   let weblinksForThisCheatsheet = [];
