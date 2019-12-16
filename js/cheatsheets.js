@@ -20,6 +20,7 @@ const createEbscoApiBlock = require("./modules/blockCreation/core/ebsco_api");
 const createWeblinksBlock = require("./modules/blockCreation/core/weblinks");
 const createPrimoBooksBlock = require("./modules/blockCreation/core/primo_book_search");
 const createPrimoArticlesBlock = require("./modules/blockCreation/core/primo_article_search");
+const createCitationBlock = require("./modules/blockCreation/core/citation_help");
 
 (async () => {
   const proxyPrepend = await getProxy();

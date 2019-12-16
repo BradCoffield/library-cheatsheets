@@ -13,7 +13,7 @@ module.exports = async blockData => {
       document
     );
     console.log(primoSearch);
-    for (let i = 10; i < 30; i++) {
+    for (let i = 0; i < 10; i++) {
       let resultBase = primoSearch.results[i];
 
       const forAppending = `<li class="ebsco-li"><a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1e7lb5m/${resultBase.sourceid[0]}${resultBase.sourcerecordid[0]}"target="_blank">${resultBase.title}</a>From: ${resultBase.isPartOf}</li>`;

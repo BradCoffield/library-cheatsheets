@@ -1,5 +1,5 @@
-const BlockContent = require("../domClasses/blockContent");
-const cheatsheetsDocument = require("../db/library-cheatsheets-single-document");
+const BlockContent = require("../../domClasses/blockContent");
+const cheatsheetsDocument = require("../../db/library-cheatsheets-single-document");
 
 module.exports = rawSheetData => {
   (async () => {
