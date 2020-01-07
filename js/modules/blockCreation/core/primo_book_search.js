@@ -1,8 +1,11 @@
+/* WITH checkthisbook I get the bug....without I don't... (the call to it in addToDom) */
+
 const NeedUL = require("../../domClasses/needUL");
 const BlockContent = require("../../domClasses/blockContent");
 const rmcLibDataDocument = require("../../db/rmc-lib-data-single-document");
 
 module.exports = async blockData => {
+  
   const howManyWeWant = 5;
   let totalDisplayed = 0;
 
@@ -43,7 +46,11 @@ module.exports = async blockData => {
   });
 
   function doOtherThings(results, randoms) {
-    for (i = 0; i <= 8; i++) {
+        let baseDom = document.getElementById("primo_book_searches-interior");
+    baseDom.insertAdjacentHTML("beforeend", "<ul id='new-books'></ul>");
+    let nextDom = document.getElementById("new-books");
+    nextDom.style.display = "none";
+    for (i = 0; i <= 10; i++) {
       console.log(results[randoms[i]]);
       
 
@@ -57,6 +64,7 @@ module.exports = async blockData => {
       let syndetics = `https://syndetics.com/index.aspx?isbn=${theIsbn}/MC.JPG&client=primo`;
       addToDom(syndetics, theTitle, theCatalogLink, i);
     }
+    nextDom.style.display = "block"
   }
 
 
@@ -67,11 +75,11 @@ module.exports = async blockData => {
            this.theBookStuff = theBookStuff;
          }
          getToAppending() {
-           var domsn = document.getElementById("primo_book_searches-interior");
+           var domsn = document.getElementById("new-books");
            domsn.insertAdjacentHTML("beforeend", this.theBookStuff);
-          //  checkThisBook(i);
+           checkThisBook(i);
 
-              totalDisplayed++;
+              // totalDisplayed++;
          }
        }
 
@@ -94,16 +102,19 @@ module.exports = async blockData => {
       ttttt.getToAppending();
     }
 
-  // function checkThisBook(num) {
-  //   let selectah = document.getElementById(`cover${num}`);
-  //   let selectah2 = document.getElementById(`new-books-li-${num}`);
-  //   if (selectah.naturalWidth < 50) {
-  //     selectah2.style.display = "none";
-  //   }
-  //   if (selectah.naturalWidth > 50) {
-  //     totalDisplayed++;
-  //   }
-  // }
+  function checkThisBook(num) {
+    // let selectah = document.getElementById(`cover${num}`);
+    // let selectah2 = document.getElementById(`new-books-li-${num}`);
+    // if (selectah.naturalWidth <= 50) {
+    //   selectah2.style.display = "none";
+    // }
+    // if (selectah.naturalWidth > 50) {
+    //   console.log("eh, total displayed1", totalDisplayed);
+    //   totalDisplayed++;
+    //   console.log("eh, total displayed2 ", totalDisplayed);
+    // }
+    // else return
+  }
 
   // // console.log(uidsWanted);
 
