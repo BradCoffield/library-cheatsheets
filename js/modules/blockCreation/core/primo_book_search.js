@@ -1,11 +1,12 @@
-/* WITH checkthisbook I get the bug....without I don't... (the call to it in addToDom) */
+/* I need to create a function that takes a single piece of data (corresponding to the random number) and this function manages adding it to the dom and checking it
+and either ++ or not and then be done or something. I don't need to hide the whole UL just hide each new LI until sure it's fine. 
+*/
 
 const NeedUL = require("../../domClasses/needUL");
 const BlockContent = require("../../domClasses/blockContent");
 const rmcLibDataDocument = require("../../db/rmc-lib-data-single-document");
 
 module.exports = async blockData => {
-  
   const howManyWeWant = 5;
   let totalDisplayed = 0;
 
@@ -40,169 +41,59 @@ module.exports = async blockData => {
       return unique_random_numbers;
     };
     var ourRandoms = getRandomNumbers(15, 45);
-    // doThings(rawData, ourRandoms);
-    console.log(ourRandoms);
-    doOtherThings(rawData, ourRandoms);
-  });
 
-  function doOtherThings(results, randoms) {
-        let baseDom = document.getElementById("primo_book_searches-interior");
-    baseDom.insertAdjacentHTML("beforeend", "<ul id='new-books'></ul>");
-    let nextDom = document.getElementById("new-books");
-    nextDom.style.display = "none";
-    for (i = 0; i <= 10; i++) {
-      console.log(results[randoms[i]]);
-      
+    for (i = 0; totalDisplayed < howManyWeWant; i++) {
+      appendBook(rawData[ourRandoms[i]], i);
+    }
 
      
-      let theIsbn = results[randoms[i]].isbn[0];
-      let theTitle = results[randoms[i]].title;
-      let theCatalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${
-        results[randoms[i]].sourceid[0]
-      }${results[randoms[i]].sourcerecordid[0]}"
-     target="_blank">`;
-      let syndetics = `https://syndetics.com/index.aspx?isbn=${theIsbn}/MC.JPG&client=primo`;
-      addToDom(syndetics, theTitle, theCatalogLink, i);
-    }
-    nextDom.style.display = "block"
+  });
+
+  function appendBook(bookData, iterator) {
+    console.log(bookData);
+    /* Setting up our UL onto which we will append LI's */
+    let baseDom = document.getElementById("primo_book_searches-interior");
+    baseDom.insertAdjacentHTML("beforeend", "<ul id='new-books'></ul>");
+    
+    let theIsbn = bookData.isbn[0];
+    let theTitle = bookData.title;
+    let catalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${
+      bookData.sourceid[0]
+    }${bookData.sourcerecordid[0]}"
+   target="_blank">`;
+    let theIMG = `https://syndetics.com/index.aspx?isbn=${theIsbn}/MC.JPG&client=primo`;
+    
+    var theBookStuff = `
+    <li class="new-books-li" id="new-books-li-${i}">
+      <div class="content">
+
+          ${catalogLink}
+              <div class="content-overlay"></div>
+              <img class="content-image book-cover" id="cover${i}" src="${theIMG}"  >
+              <div class="content-details fadeIn-bottom">
+                  <div class="content-title">${theTitle}
+
+              </div>
+          </a>
+      </div>
+  </li>`;
+  let append = new RmcNewBooks(theBookStuff)
+  append.getToAppending();
+
+    
+
+    totalDisplayed++;
   }
-
-
-   function addToDom(theIMG, theTitle, catalogLink, i) {
-     if (totalDisplayed < howManyWeWant) {
-       class RmcNewBooks {
-         constructor(theBookStuff) {
-           this.theBookStuff = theBookStuff;
-         }
-         getToAppending() {
-           var domsn = document.getElementById("new-books");
-           domsn.insertAdjacentHTML("beforeend", this.theBookStuff);
-           checkThisBook(i);
-
-              // totalDisplayed++;
-         }
-       }
-
-      var theBookStuff = `
-             <li class="new-books-li" id="new-books-li-${i}">
-               <div class="content">
-
-                   ${catalogLink}
-                       <div class="content-overlay"></div>
-                       <img class="content-image book-cover" id="cover${i}" src="${theIMG}"  >
-                       <div class="content-details fadeIn-bottom">
-                           <div class="content-title">${theTitle}
-
-                       </div>
-                   </a>
-               </div>
-           </li>`;
-
-      var ttttt = new RmcNewBooks(theBookStuff);
-      ttttt.getToAppending();
+  class RmcNewBooks {
+    constructor(theBookStuff) {
+      this.theBookStuff = theBookStuff;
     }
+    getToAppending() {
+      var domsn = document.getElementById("new-books");
+      domsn.insertAdjacentHTML("beforeend", this.theBookStuff);
+      // checkThisBook(i);
 
-  function checkThisBook(num) {
-    // let selectah = document.getElementById(`cover${num}`);
-    // let selectah2 = document.getElementById(`new-books-li-${num}`);
-    // if (selectah.naturalWidth <= 50) {
-    //   selectah2.style.display = "none";
-    // }
-    // if (selectah.naturalWidth > 50) {
-    //   console.log("eh, total displayed1", totalDisplayed);
-    //   totalDisplayed++;
-    //   console.log("eh, total displayed2 ", totalDisplayed);
-    // }
-    // else return
+         // totalDisplayed++;
+    }
   }
-
-  // // console.log(uidsWanted);
-
-  // function doThings(results, randoms) {
-  //   let baseDom = document.getElementById("primo_book_searches-interior");
-  //   baseDom.insertAdjacentHTML("beforeend", "<ul id='new-books'></ul>");
-  //   let nextDom = document.getElementById("new-books");
-  //   nextDom.style.display = "none";
-
-  //   let theOnesWeWant = randoms.slice(0,howManyWeWant+3)
-  //   console.log("sliced",theOnesWeWant);
-
-  //   let i = 0;
-  //   if (results[0]){
-  //     for (i; totalDisplayed < howManyWeWant; i++) {
-  //       // console.log(results.rawData[results.ourRandoms[i]].pnx.search);
-  //       console.log(randoms[i], results[randoms[i]]);
-  //       let theIsbn = results[theOnesWeWant[i]].isbn[0];
-  //       let theTitle = results[theOnesWeWant[i]].title;
-  //       let theCatalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${
-  //         results[theOnesWeWant[i]].sourceid[0]
-  //       }${results[theOnesWeWant[i]].sourcerecordid[0]}"
-  //         target="_blank">`;
-
-  //       let syndetics = `https://syndetics.com/index.aspx?isbn=${theIsbn}/MC.JPG&client=primo`;
-
-  //       // let theIsbn = results[randoms[i]].isbn[0];
-  //       // let theTitle = results[randoms[i]].title;
-  //       // let theCatalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${
-  //       //   results[randoms[i]].sourceid[0]
-  //       // }${results[randoms[i]].sourcerecordid[0]}"
-  //       //   target="_blank">`;
-
-  //       // let syndetics = `https://syndetics.com/index.aspx?isbn=${theIsbn}/MC.JPG&client=primo`;
-
-  //       addToDom(syndetics, theTitle, theCatalogLink, i);
-  //     }
-  //     // let nextDom = document.getElementById("new-books");
-  //     // let preloader = document.getElementById("library-preloader");
-  //     // preloader.style.display = "none";
-  //     nextDom.style.display = "block";}
-  // }
-
-  // // function addToDom(theIMG, theTitle, catalogLink, i) {
-  // //   if (totalDisplayed < howManyWeWant) {
-  // //     class RmcNewBooks {
-  // //       constructor(theBookStuff) {
-  // //         this.theBookStuff = theBookStuff;
-  // //       }
-  // //       getToAppending() {
-  // //         var domsn = document.getElementById("new-books");
-  // //         domsn.insertAdjacentHTML("beforeend", this.theBookStuff);
-  // //         checkThisBook(i);
-
-  // //         //   totalDisplayed++;
-  // //       }
-  // //     }
-
-  //     var theBookStuff = `
-  //            <li class="new-books-li" id="new-books-li-${i}">
-  //              <div class="content">
-
-  //                  ${catalogLink}
-  //                      <div class="content-overlay"></div>
-  //                      <img class="content-image book-cover" id="cover${i}" src="${theIMG}"  >
-  //                      <div class="content-details fadeIn-bottom">
-  //                          <div class="content-title">${theTitle}
-
-  //                      </div>
-  //                  </a>
-  //              </div>
-  //          </li>`;
-
-  //     var ttttt = new RmcNewBooks(theBookStuff);
-  //     ttttt.getToAppending();
-  //   }
 };
-
-//   let getPrimoBooksAndAppend = async uid => {
-//     let bookResults = await rmcLibDataDocument("primo-book-searches", uid);
-//     console.log(bookResults);
-//     for (let i = 0; i < 10; i++) {
-//         let resultBase = bookResults.results[i];
-
-//         const forAppending = `<li class="ebsco-li"><a href="${proxyPrepend}${resultBase.permalink}">${resultBase.articleTitle}</a></li>`;
-//         let tt = new BlockContent(forAppending, "primo_book_searches");
-//         tt.getToAppending();
-//       }
-//   };
-// };
-}
