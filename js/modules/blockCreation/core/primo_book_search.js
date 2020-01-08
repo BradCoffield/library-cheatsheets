@@ -45,8 +45,6 @@ module.exports = async blockData => {
     for (i = 0; totalDisplayed < howManyWeWant; i++) {
       appendBook(rawData[ourRandoms[i]], i);
     }
-
-     
   });
 
   function appendBook(bookData, iterator) {
@@ -54,22 +52,19 @@ module.exports = async blockData => {
     /* Setting up our UL onto which we will append LI's */
     let baseDom = document.getElementById("primo_book_searches-interior");
     baseDom.insertAdjacentHTML("beforeend", "<ul id='new-books'></ul>");
-    
+
     let theIsbn = bookData.isbn[0];
     let theTitle = bookData.title;
-    let catalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${
-      bookData.sourceid[0]
-    }${bookData.sourcerecordid[0]}"
+    let catalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${bookData.sourceid[0]}${bookData.sourcerecordid[0]}"
    target="_blank">`;
     let theIMG = `https://syndetics.com/index.aspx?isbn=${theIsbn}/MC.JPG&client=primo`;
-    
-    var theBookStuff = `
-    <li class="new-books-li" id="new-books-li-${i}">
+
+    var theBookStuff = `    <li class="new-books-li" id="new-books-li-${iterator}">
       <div class="content">
 
           ${catalogLink}
               <div class="content-overlay"></div>
-              <img class="content-image book-cover" id="cover${i}" src="${theIMG}"  >
+              <img class="content-image book-cover" id="cover${iterator}" src="${theIMG}"  >
               <div class="content-details fadeIn-bottom">
                   <div class="content-title">${theTitle}
 
@@ -77,12 +72,21 @@ module.exports = async blockData => {
           </a>
       </div>
   </li>`;
-  let append = new RmcNewBooks(theBookStuff)
-  append.getToAppending();
+    let append = new RmcNewBooks(theBookStuff);
+    append.getToAppending();
 
-    
+    // lets snag the new book dom and check it
+    let newBook = document.getElementById(`cover${iterator}`)
+    newBook.addEventListener('load', function() {
+      console.log(newBook.id,'My width is: ', this.naturalWidth);
+      if (this.naturalHeight == 1){
+        document.getElementById(`new-books-li-${iterator}`).outerHTML = "";
+      }
+       
+    });
+  totalDisplayed++
 
-    totalDisplayed++;
+
   }
   class RmcNewBooks {
     constructor(theBookStuff) {
@@ -93,7 +97,7 @@ module.exports = async blockData => {
       domsn.insertAdjacentHTML("beforeend", this.theBookStuff);
       // checkThisBook(i);
 
-         // totalDisplayed++;
+      // totalDisplayed++;
     }
   }
 };
