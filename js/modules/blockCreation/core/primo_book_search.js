@@ -21,7 +21,7 @@ module.exports = async blockData => {
 
   uidsWanted.forEach(async uid => {
     let bookResults = await rmcLibDataDocument("primo-book-searches", uid);
-    console.log(bookResults);
+    // console.log(bookResults);
     const rawData = bookResults.results;
     const getRandomNumbers = function(howMany, upperLimit) {
       var limit = howMany,
@@ -48,7 +48,7 @@ module.exports = async blockData => {
   });
 
   function appendBook(bookData, iterator) {
-    console.log(bookData);
+    // console.log(bookData);
     /* Setting up our UL onto which we will append LI's */
     let baseDom = document.getElementById("primo_book_searches-interior");
     baseDom.insertAdjacentHTML("beforeend", "<ul id='new-books'></ul>");
@@ -78,7 +78,7 @@ module.exports = async blockData => {
     // lets snag the new book dom and check it
     let newBook = document.getElementById(`cover${iterator}`)
     newBook.addEventListener('load', function() {
-      console.log(newBook.id,'My width is: ', this.naturalWidth);
+      // console.log(newBook.id,'My width is: ', this.naturalWidth);
       if (this.naturalHeight == 1){
         document.getElementById(`new-books-li-${iterator}`).outerHTML = "";
       }

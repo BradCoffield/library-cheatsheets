@@ -21,6 +21,7 @@ const createWeblinksBlock = require("./modules/blockCreation/core/weblinks");
 const createPrimoBooksBlock = require("./modules/blockCreation/core/primo_book_search");
 const createPrimoArticlesBlock = require("./modules/blockCreation/core/primo_article_search");
 const createCitationBlock = require("./modules/blockCreation/core/citation_help");
+const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
 
 (async () => {
   const proxyPrepend = await getProxy();
@@ -28,6 +29,7 @@ const createCitationBlock = require("./modules/blockCreation/core/citation_help"
   const dataForThisCheatsheet = await getSingleCheatsheet();
   const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
   console.log(dataForThisCheatsheet);
+  createDPLABlock()
 
   //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
   defaultOrderForBlocks.forEach(block => {

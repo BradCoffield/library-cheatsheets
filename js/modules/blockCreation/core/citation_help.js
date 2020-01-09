@@ -12,7 +12,7 @@ module.exports = rawSheetData => {
         "CitationStylesRepository",
         styleWanted
       );
-      console.log(citationStyleData.styleWeblinks);
+      // console.log(citationStyleData.styleWeblinks);
       let contentForDom = `<h3>${citationStyleData.styleDisplayName}</h3><p class="heading-description">${citationStyleData.descriptionOfStyle}</p><p><h4>Available in the library</h4><ul><li><img src="${citationStyleData.styleBook.imgURL}" alt="Book cover of MLA Handbook"></img>${citationStyleData.styleBook.bookDescription} It is available for use <a href="${citationStyleData.styleBook.primoURL}" target="_blank">in the library.</a></li></ul></p><p><h4>Helpful Links</h4><ul id="${citationStyleData.styleDisplayName}-helpful-links-ul"><li>hi<li></ul></p>`;
 
       let domStuff = new BlockContent(
