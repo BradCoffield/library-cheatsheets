@@ -22,6 +22,7 @@ const createPrimoBooksBlock = require("./modules/blockCreation/core/primo_book_s
 const createPrimoArticlesBlock = require("./modules/blockCreation/core/primo_article_search");
 const createCitationBlock = require("./modules/blockCreation/core/citation_help");
 const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
+const createPrimoQuickSearch = require("./modules/blockCreation/core/primo_quick_search");
 
 (async () => {
   const proxyPrepend = await getProxy();
@@ -29,7 +30,7 @@ const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
   const dataForThisCheatsheet = await getSingleCheatsheet();
   const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
   console.log(dataForThisCheatsheet);
-  
+
   //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
   defaultOrderForBlocks.forEach(block => {
     if (blocksForProduction.includes(block)) {
@@ -50,14 +51,19 @@ const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
       createCitationBlock(dataForThisCheatsheet);
     }
     if (blockName === "primo_article_searches") {
-      createPrimoArticlesBlock(dataForThisCheatsheet.primo_article_searches)
+      createPrimoArticlesBlock(dataForThisCheatsheet.primo_article_searches);
     }
     if (blockName === "primo_book_searches") {
       // console.log("primo_book_searchesINIT");
       createPrimoBooksBlock(dataForThisCheatsheet.primo_book_searches);
     }
-    if (blockName === "dpla"){
+    if (blockName === "dpla") {
       createDPLABlock(dataForThisCheatsheet.dpla);
     }
+    if (blockName === "primo_quick_search") {createPrimoQuickSearch();
+    }
   });
+
+  
+  
 })();
