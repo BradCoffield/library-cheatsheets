@@ -29,8 +29,7 @@ const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
   const dataForThisCheatsheet = await getSingleCheatsheet();
   const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
   console.log(dataForThisCheatsheet);
-  createDPLABlock()
-
+  
   //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
   defaultOrderForBlocks.forEach(block => {
     if (blocksForProduction.includes(block)) {
@@ -56,6 +55,9 @@ const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
     if (blockName === "primo_book_searches") {
       // console.log("primo_book_searchesINIT");
       createPrimoBooksBlock(dataForThisCheatsheet.primo_book_searches);
+    }
+    if (blockName === "dpla"){
+      createDPLABlock();
     }
   });
 })();

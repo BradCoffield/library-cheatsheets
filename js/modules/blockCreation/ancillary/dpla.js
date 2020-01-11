@@ -1,4 +1,12 @@
+const NeedUL = require("../../domClasses/needUL");
+const BlockContent = require("../../domClasses/blockContent");
+// const rmcLibDataDocument = require("../../db/rmc-lib-data-single-document");
+
 module.exports = async blockData => {
+  let initDom = new NeedUL("dpla");
+  initDom.getToAppending();
+
+
   fetch(
     "https://api.dp.la/v2/items?q=weasels&api_key=2f7220ddc3368cb08ede39b319bcf34d"
   )
@@ -17,17 +25,11 @@ module.exports = async blockData => {
       json.docs.forEach((result) => {
         let forTheDom = `<ul class="dpla-item-ul">
         <li>${result.sourceResource.title}</li>
-        <li><img scr="${result.object}"</li>
-      
-       
-       
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li><img src="${result.object}" alt=""></img></li>
         </ul>`
-        console.log(forTheDom);
+        let tt = new BlockContent(forTheDom, "dpla");
+      tt.getToAppending();
+        
       })
     });
 

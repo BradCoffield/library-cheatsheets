@@ -2,6 +2,7 @@ module.exports = dataForThisCheatsheet => {
   let blocksForProduction = [];
 
   const keys = Object.keys(dataForThisCheatsheet);
+  console.log(keys)
 
   keys.forEach(i => {
       // find blocks with metadata
