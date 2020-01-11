@@ -2,6 +2,7 @@ const BlockContent = require("../../domClasses/blockContent");
 const cheatsheetsDocument = require("../../db/library-cheatsheets-single-document");
 
 module.exports = rawSheetData => {
+  console.log(rawSheetData);
   (async () => {
     let sheetCitationStylesArr = rawSheetData["citation_styles"].filter(arr => {
       return arr["stylesWanted"];

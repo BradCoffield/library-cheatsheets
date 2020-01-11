@@ -57,7 +57,7 @@ const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
       createPrimoBooksBlock(dataForThisCheatsheet.primo_book_searches);
     }
     if (blockName === "dpla"){
-      createDPLABlock();
+      createDPLABlock(dataForThisCheatsheet.dpla);
     }
   });
 })();
