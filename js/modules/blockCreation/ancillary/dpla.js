@@ -52,6 +52,10 @@ module.exports = async blockData => {
         let tt = new BlockContent(forTheDom, "dpla");
         tt.getToAppending();
       });
+    }).catch((err) => {
+      console.log(err)
+     console.log(document.getElementById("dpla-interior").parentElement.nodeName)
+     document.getElementById("dpla-interior").parentElement.style.display = "none"
     });
 
   /* What do I need from the record?
