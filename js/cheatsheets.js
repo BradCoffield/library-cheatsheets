@@ -23,13 +23,15 @@ const createPrimoArticlesBlock = require("./modules/blockCreation/core/primo_art
 const createCitationBlock = require("./modules/blockCreation/core/citation_help");
 const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
 const createPrimoQuickSearch = require("./modules/blockCreation/core/primo_quick_search");
+const createDbBySubject = require("./modules/blockCreation/core/databases-by-subject");
 
 (async () => {
   const proxyPrepend = await getProxy();
   const defaultOrderForBlocks = await getDefaultOrder();
   const dataForThisCheatsheet = await getSingleCheatsheet();
   const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
-  console.log(dataForThisCheatsheet);
+  createDbBySubject(proxyPrepend)
+  // console.log(dataForThisCheatsheet);
 
   //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
   defaultOrderForBlocks.forEach(block => {
@@ -63,6 +65,7 @@ const createPrimoQuickSearch = require("./modules/blockCreation/core/primo_quick
     if (blockName === "primo_quick_search") {createPrimoQuickSearch();
     }
   });
+  
 
   
   
