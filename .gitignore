@@ -72,3 +72,5 @@ _site/firebase.json
 _site/index.html
 _site/LICENSE
 _site/README.md
+
+\.vscode/
