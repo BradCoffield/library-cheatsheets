@@ -1,5 +1,6 @@
 const NeedUL = require("../../domClasses/needUL");
 const BlockContent = require("../../domClasses/blockContent");
+const rmcDataGetCollection = require("../../db/rmc-lib-data-single-collection")
 
 module.exports = async proxyPrepend => {
   const cheatsheetPage = document.querySelector(".subjectName").id;
@@ -18,17 +19,12 @@ module.exports = async proxyPrepend => {
     });
   });
 
-  db2.collection("databases")
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
-        console.log("hi");
-     console.log(doc.id, " => ", doc.data());
-    });
-  })
+
  
 
   const whichPageWeWorkingWith = document.querySelector(".subjectName").id;
+
+let databasesData = await rmcDataGetCollection("databases")
 
   class SubjectDatabase {
     constructor(quality, dbData) {
@@ -82,15 +78,6 @@ module.exports = async proxyPrepend => {
     }
   }
 console.log("here")
-
- db2.collection("databases")
- .get()
- .then(function(querySnapshot) {
-   querySnapshot.forEach(function(doc) {
-       console.log("hi");
-    console.log(doc.id, " => ", doc.data());
-   });
- })
 
   db2
     .collection("databases")
