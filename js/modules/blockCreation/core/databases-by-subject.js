@@ -17,6 +17,15 @@ module.exports = async proxyPrepend => {
       }
     });
   });
+
+  db2.collection("databases")
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        console.log("hi");
+     console.log(doc.id, " => ", doc.data());
+    });
+  })
  
 
   const whichPageWeWorkingWith = document.querySelector(".subjectName").id;
