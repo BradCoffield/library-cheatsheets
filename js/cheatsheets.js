@@ -30,8 +30,8 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
   const defaultOrderForBlocks = await getDefaultOrder();
   const dataForThisCheatsheet = await getSingleCheatsheet();
   const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
-  createDbBySubject(proxyPrepend)
-  // console.log(dataForThisCheatsheet);
+ 
+ 
 
   //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
   defaultOrderForBlocks.forEach(block => {
@@ -64,6 +64,7 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
     }
     if (blockName === "primo_quick_search") {createPrimoQuickSearch();
     }
+    if (blockName === "databases"){  createDbBySubject(proxyPrepend)}
   });
   
 

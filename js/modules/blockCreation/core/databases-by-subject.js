@@ -1,10 +1,14 @@
 const NeedUL = require("../../domClasses/needUL");
 const BlockContent = require("../../domClasses/blockContent");
-const rmcDataGetCollection = require("../../db/rmc-lib-data-single-collection")
+const rmcDataGetCollection = require("../../db/rmc-lib-data-single-collection");
+const rmcDataGetDatabasesEF = require("../../db/rmc-lib-data-databases-EF");
 
 module.exports = async proxyPrepend => {
   const cheatsheetPage = document.querySelector(".subjectName").id;
-  console.log(proxyPrepend);
+
+ let prepDom = document.getElementById("databases-interior")
+ prepDom.insertAdjacentHTML("beforeend","<div id='excellent_for'></div>")
+
 
   let myLabels = document.querySelectorAll(".lbl-toggle");
 
@@ -19,12 +23,11 @@ module.exports = async proxyPrepend => {
     });
   });
 
-
- 
-
   const whichPageWeWorkingWith = document.querySelector(".subjectName").id;
 
-let databasesData = await rmcDataGetCollection("databases")
+  let databasesData = await rmcDataGetCollection("databases");
+  let dbData = await rmcDataGetDatabasesEF("English");
+  console.log(dbData);
 
   class SubjectDatabase {
     constructor(quality, dbData) {
@@ -67,63 +70,23 @@ let databasesData = await rmcDataGetCollection("databases")
                   </li>`
         );
       };
-      if (this.quality === "excellent_for") {
         const dbNode = document.getElementById(`excellent_for`);
         doIt(dbNode);
-      }
-      if (this.quality === "good_for") {
-        const dbNode = document.getElementById("good_for");
-        doIt(dbNode);
-      }
     }
   }
-console.log("here")
 
-  db2
-    .collection("databases")
-    .where("excellentFor", "array-contains", `${whichPageWeWorkingWith}`)
-    .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        console.log(doc.id, " => ", doc.data());
-        let name = doc.data().name;
-        // console.log(name);
-        let url = "";
-        if (doc.data().use_proxy) {
-          url = `${theProxyUrl}${doc.data().url}`;
-        } else {
-          url = doc.data().url;
-        }
-        let content_types = doc.data().content_types;
-        let description = doc.data().description;
-
-        let dbObj = { name, content_types, description, url };
-        let newThing = new SubjectDatabase("excellent_for", dbObj);
-        newThing.appendIt();
-      });
-    })
-    .then(
-      db2
-        .collection("databases")
-        .where("goodFor", "array-contains", `${whichPageWeWorkingWith}`)
-        .get()
-        .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-            // console.log(doc.id, " => ", doc.data());
-            let name = doc.data().name;
-            // console.log(name);
-            let content_types = doc.data().content_types;
-            let description = doc.data().description;
-            let url = "";
-            if (doc.data().use_proxy) {
-              url = `${theProxyUrl}${doc.data().url}`;
-            } else {
-              url = doc.data().url;
-            }
-            let dbObj = { name, content_types, description, url };
-            let newThing = new SubjectDatabase("good_for", dbObj);
-            newThing.appendIt();
-          });
-        })
-    );
+  dbData.forEach(database => {
+    let name = database.name;
+    let url = "";
+    if (database.use_proxy) {
+      url = `${proxyPrepend}${database.url}`;
+    } else {
+      url = database.url;
+    }
+    let content_types = database.content_types;
+    let description = database.description;
+    let dbObj = { name, content_types, description, url };
+    let newThing = new SubjectDatabase("excellent_for", dbObj);
+    newThing.appendIt();
+  });
 };
