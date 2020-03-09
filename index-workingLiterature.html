@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>~!~~~~~~~~~~~~~~~~~~~~~~~~~~~~</title>
+    <link rel="stylesheet" href="/css/normalize.css">
+   <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body>
+    
+    <h2 id="Literature" class="subjectName">Literature</h2>
+    <div id="cheatsheetsBlockWrapper">
+       <!-- <div id="ebsco">    <h3>EBSCO Articles</h3>
+    <p>Scholarly, full-text articles from Academic Search Complete</p> -->
+    
+    </div> 
+  </div>
+
+    <!-- FIRESTORE INIT STUFF -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script> -->
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
+
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyCDKrRaEVvKwz-TXwz2qnwov8yGXuP35Jk",
+        authDomain: "rmc-library-data.firebaseapp.com",
+        databaseURL: "https://rmc-library-data.firebaseio.com",
+        projectId: "rmc-library-data",
+        storageBucket: "rmc-library-data.appspot.com",
+        messagingSenderId: "30728362672"
+      };
+      firebase.initializeApp(config);
+      const db = firebase.firestore();
+   
+    </script>
+    <script>
+        // Your web app's Firebase configuration
+        var cheatsheetsFirebaseConfig = {
+          apiKey: "AIzaSyDh_RPQxVpCUAFtGn0zstO9elmUrEMWlls",
+          authDomain: "rmc-library-cheatsheets.firebaseapp.com",
+          databaseURL: "https://rmc-library-cheatsheets.firebaseio.com",
+          projectId: "rmc-library-cheatsheets",
+          storageBucket: "rmc-library-cheatsheets.appspot.com",
+          messagingSenderId: "263509113587",
+          appId: "1:263509113587:web:aa5006636bbcc98d955586",
+          measurementId: "G-6YBHDKGRWJ"
+        };
+        // Initialize Firebase
+        //  firebase.initializeApp(cheatsheetsFirebaseConfig, "secondary");
+        // // firebase.analytics();
+        // const db2 = firebase.firestore();
+        var secondary = firebase.initializeApp(cheatsheetsFirebaseConfig, "secondary");
+
+// Retrieve the database.
+var db2 = secondary.firestore();
+
+      </script>
+<!-- <script src="/js/bundle.js"></script> -->
+<script src="/js/cheatsheets.js"></script>    
+<!-- <script src="/js/ebsco-display-1.js"></script> -->
+    <!-- <script src="/js/a-div-and-a-dream.js"></script> -->
+
+  </body>
+</html>
