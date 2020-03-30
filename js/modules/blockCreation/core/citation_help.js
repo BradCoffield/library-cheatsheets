@@ -4,11 +4,9 @@ const cheatsheetsDocument = require("../../db/library-cheatsheets-single-documen
 module.exports = rawSheetData => {
   console.log(rawSheetData);
   (async () => {
-    let sheetCitationStylesArr = rawSheetData["citation_styles"].filter(arr => {
-      return arr["stylesWanted"];
-    });
+     
 
-    sheetCitationStylesArr[0].stylesWanted.forEach(async styleWanted => {
+    rawSheetData.citation_styles.toUse.forEach(async styleWanted => {
       let citationStyleData = await cheatsheetsDocument(
         "CitationStylesRepository",
         styleWanted
