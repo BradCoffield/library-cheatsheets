@@ -49,7 +49,7 @@ module.exports = async blockData => {
         <li>${type}</li>
         
         </ul>`;
-        let tt = new NeedUL(forTheDom, "dpla");
+        let tt = new BlockContent(forTheDom, "dpla");
         tt.getToAppending();
       });
     }).catch((err) => {
