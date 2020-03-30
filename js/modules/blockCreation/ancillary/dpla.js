@@ -4,15 +4,15 @@ const BlockContent = require("../../domClasses/blockContent");
 
 module.exports = async blockData => {
   console.log(blockData);
-  let initDom = new NeedUL("dpla");
-  initDom.getToAppending();
-  let topicsWanted = blockData.filter(arr => {
-    return arr["topics"];
-  });
-  console.log(topicsWanted);
+  // let initDom = new NeedUL("dpla");
+  // initDom.getToAppending();
+  // let topicsWanted = blockData.filter(arr => {
+  //   return arr["topics"];
+  // });
+  // console.log(topicsWanted);
 
   fetch(
-    `https://api.dp.la/v2/items?q=${topicsWanted[0].topics[0]}&api_key=2f7220ddc3368cb08ede39b319bcf34d`
+    `https://api.dp.la/v2/items?q=${blockData.topics}&api_key=2f7220ddc3368cb08ede39b319bcf34d`
   )
     .then(res => res.json())
     .then(json => {
@@ -49,13 +49,13 @@ module.exports = async blockData => {
         <li>${type}</li>
         
         </ul>`;
-        let tt = new BlockContent(forTheDom, "dpla");
+        let tt = new NeedUL(forTheDom, "dpla");
         tt.getToAppending();
       });
     }).catch((err) => {
       console.log(err)
-     console.log(document.getElementById("dpla-interior").parentElement.nodeName)
-     document.getElementById("dpla-interior").parentElement.style.display = "none"
+              //  console.log(document.getElementById("dpla-interior").parentElement.nodeName)
+              //  document.getElementById("dpla-interior").parentElement.style.display = "none"
     });
 
   /* What do I need from the record?
