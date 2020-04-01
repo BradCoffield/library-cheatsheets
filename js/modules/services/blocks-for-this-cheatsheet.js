@@ -1,5 +1,5 @@
 module.exports = dataForThisCheatsheet => {
-  console.log(dataForThisCheatsheet);
+  // console.log(dataForThisCheatsheet);
 
   let blocksForProduction = [];
 

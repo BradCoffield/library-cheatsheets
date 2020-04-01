@@ -3,7 +3,7 @@ module.exports = () => {
   const cheatsheetsRef = db2.collection("Cheatsheets").doc(cheatsheetPage);
   return cheatsheetsRef.get().then(function(doc) {
     if (doc.exists) {
-      console.log("gsc eh",doc.data())
+      // console.log("gsc eh",doc.data())
       return doc.data();
     } else {
       console.log("No such document!");
