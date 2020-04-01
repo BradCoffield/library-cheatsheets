@@ -17,7 +17,7 @@ module.exports = async blockData => {
 
   uidsWanted.forEach(async uid => {
     let bookResults = await rmcLibDataDocument("primo-book-searches", uid);
-    // console.log(bookResults);
+    // console.log(bookResults.results);
     const rawData = bookResults.results;
     const getRandomNumbers = function(howMany, upperLimit) {
       var limit = howMany,
@@ -36,7 +36,8 @@ module.exports = async blockData => {
       }
       return unique_random_numbers;
     };
-    var ourRandoms = getRandomNumbers(15, 45);
+    var ourRandoms = getRandomNumbers(4, rawData.length);
+    // console.log(bookResults.length, ourRandoms);
 
     for (i = 0; totalDisplayed < howManyWeWant; i++) {
       appendBook(rawData[ourRandoms[i]], i);
@@ -45,11 +46,13 @@ module.exports = async blockData => {
 
   function appendBook(bookData, iterator) {
     // console.log(bookData);
+    // if (!bookData){return}
     /* Setting up our UL onto which we will append LI's */
     let baseDom = document.getElementById("primo_book_searches-interior");
     baseDom.insertAdjacentHTML("beforeend", "<ul id='new-books'></ul>");
 
-    let theIsbn = bookData.isbn[0];
+   let theIsbn = ""
+    if(bookData && bookData.isbn){ theIsbn = bookData.isbn[0];}
     let theTitle = bookData.title;
     let catalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${bookData.sourceid[0]}${bookData.sourcerecordid[0]}"
    target="_blank">`;
