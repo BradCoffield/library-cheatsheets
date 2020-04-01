@@ -4,20 +4,16 @@ and either ++ or not and then be done or something. I don't need to hide the who
 
 const NeedUL = require("../../domClasses/needUL");
 const BlockContent = require("../../domClasses/blockContent");
-const rmcLibDataDocument = require("../../db/rmc-lib-data-single-document");
+const rmcLibDataDocument = require("../../db/library-cheatsheets-single-document");
 
 module.exports = async blockData => {
   const howManyWeWant = 5;
   let totalDisplayed = 0;
 
   let uidsWanted = [];
-  blockData
-    .filter(arr => {
-      return arr.uid;
-    })
-    .forEach(butter => {
-      uidsWanted.push(butter.uid);
-    });
+  blockData.toUse.forEach(butter => {
+    uidsWanted.push(butter);
+  });
 
   uidsWanted.forEach(async uid => {
     let bookResults = await rmcLibDataDocument("primo-book-searches", uid);
@@ -76,17 +72,14 @@ module.exports = async blockData => {
     append.getToAppending();
 
     // lets snag the new book dom and check it
-    let newBook = document.getElementById(`cover${iterator}`)
-    newBook.addEventListener('load', function() {
+    let newBook = document.getElementById(`cover${iterator}`);
+    newBook.addEventListener("load", function() {
       // console.log(newBook.id,'My width is: ', this.naturalWidth);
-      if (this.naturalHeight == 1){
+      if (this.naturalHeight == 1) {
         document.getElementById(`new-books-li-${iterator}`).outerHTML = "";
       }
-       
     });
-  totalDisplayed++
-
-
+    totalDisplayed++;
   }
   class RmcNewBooks {
     constructor(theBookStuff) {
