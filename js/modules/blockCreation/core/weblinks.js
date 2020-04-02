@@ -7,15 +7,33 @@ module.exports = async () => {
   // const weblinksContentRef = db2.collection("Weblinks");
   const topicForThisPage = document.querySelector(".subjectName").id;
   let rawData = await getSingleCollection("Weblinks");
-
+  let initDom = new NeedUL("weblinks_block");
+      initDom.getToAppending();
   rawData.forEach(i => {
     i.AssociatedSubjects.forEach(q => {
       if (q == topicForThisPage) {
-        console.log("yesss", q);
+        // console.log("yesss", q, i);
+          
+        let linkDescription, linkDisplayName, linkLink;
+        if (i.description == undefined) {
+          linkDescription = "";
+        } else {
+          linkDescription = i.description;
+        }
+        if (!i.displayName) {
+          return;
+        } else linkDisplayName = i.displayName;
+        if (!i.url) {
+          return;
+        } else linkLink = i.url;
+     
+        let forDom = `<li><a href="${linkLink}">${linkDisplayName}</a><p>${linkDescription}</p></li>`;
+        let weblinksContent = new BlockContent(forDom, "weblinks_block");
+      
+        weblinksContent.getToAppending();
+    
       }
-      if (q !== topicForThisPage) {
-        console.log("nahhh", q);
-      }
+     
     });
   });
 
