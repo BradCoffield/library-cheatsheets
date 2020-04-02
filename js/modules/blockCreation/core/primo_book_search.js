@@ -4,24 +4,20 @@ and either ++ or not and then be done or something. I don't need to hide the who
 
 const NeedUL = require("../../domClasses/needUL");
 const BlockContent = require("../../domClasses/blockContent");
-const rmcLibDataDocument = require("../../db/rmc-lib-data-single-document");
+const rmcLibDataDocument = require("../../db/library-cheatsheets-single-document");
 
 module.exports = async blockData => {
   const howManyWeWant = 5;
   let totalDisplayed = 0;
 
   let uidsWanted = [];
-  blockData
-    .filter(arr => {
-      return arr.uid;
-    })
-    .forEach(butter => {
-      uidsWanted.push(butter.uid);
-    });
+  blockData.toUse.forEach(butter => {
+    uidsWanted.push(butter);
+  });
 
   uidsWanted.forEach(async uid => {
     let bookResults = await rmcLibDataDocument("primo-book-searches", uid);
-    // console.log(bookResults);
+    // console.log(bookResults.results);
     const rawData = bookResults.results;
     const getRandomNumbers = function(howMany, upperLimit) {
       var limit = howMany,
@@ -40,7 +36,8 @@ module.exports = async blockData => {
       }
       return unique_random_numbers;
     };
-    var ourRandoms = getRandomNumbers(15, 45);
+    var ourRandoms = getRandomNumbers(4, rawData.length);
+    // console.log(bookResults.length, ourRandoms);
 
     for (i = 0; totalDisplayed < howManyWeWant; i++) {
       appendBook(rawData[ourRandoms[i]], i);
@@ -49,11 +46,13 @@ module.exports = async blockData => {
 
   function appendBook(bookData, iterator) {
     // console.log(bookData);
+    // if (!bookData){return}
     /* Setting up our UL onto which we will append LI's */
     let baseDom = document.getElementById("primo_book_searches-interior");
     baseDom.insertAdjacentHTML("beforeend", "<ul id='new-books'></ul>");
 
-    let theIsbn = bookData.isbn[0];
+   let theIsbn = ""
+    if(bookData && bookData.isbn){ theIsbn = bookData.isbn[0];}
     let theTitle = bookData.title;
     let catalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${bookData.sourceid[0]}${bookData.sourcerecordid[0]}"
    target="_blank">`;
@@ -76,17 +75,14 @@ module.exports = async blockData => {
     append.getToAppending();
 
     // lets snag the new book dom and check it
-    let newBook = document.getElementById(`cover${iterator}`)
-    newBook.addEventListener('load', function() {
+    let newBook = document.getElementById(`cover${iterator}`);
+    newBook.addEventListener("load", function() {
       // console.log(newBook.id,'My width is: ', this.naturalWidth);
-      if (this.naturalHeight == 1){
+      if (this.naturalHeight == 1) {
         document.getElementById(`new-books-li-${iterator}`).outerHTML = "";
       }
-       
     });
-  totalDisplayed++
-
-
+    totalDisplayed++;
   }
   class RmcNewBooks {
     constructor(theBookStuff) {

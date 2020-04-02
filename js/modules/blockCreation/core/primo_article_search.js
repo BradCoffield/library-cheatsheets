@@ -1,6 +1,6 @@
 const NeedUL = require("../../domClasses/needUL");
 const BlockContent = require("../../domClasses/blockContent");
-const rmcLibDataDocument = require("../../db/rmc-lib-data-single-document");
+const rmcLibDataDocument = require("../../db/library-cheatsheets-single-document");
 
 module.exports = async blockData => {
   // console.log("eh");
@@ -22,13 +22,7 @@ module.exports = async blockData => {
       // the first permalink should be https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1e7lb5m/TN_gale_ofa113523425
     }
   };
-
+  // console.log(blockData);
   // Grabs the uid from the desired ebsco searches and then sends them to be gotten from rmc-lib-data
-  blockData
-    .filter(arr => {
-      return arr.uid;
-    })
-    .forEach(butter => {
-      getPrimoSearchesAndAppend(butter.uid);
-    });
+    getPrimoSearchesAndAppend(blockData.toUse[0]);
 };
