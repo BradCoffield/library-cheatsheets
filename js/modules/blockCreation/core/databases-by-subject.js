@@ -48,30 +48,23 @@ module.exports = async proxyPrepend => {
         theNode.insertAdjacentHTML(
           "beforeend",
           ` <li class="database-li">
-                  <h5><a href="${this.dbData.url}" target="_blank">${
-            this.dbData.name
-          }</a></h5>
-                  <div class="wrap-collabsible">
-                          <input id="collapsible-${
-                            this.dbData.name
-                          }" class="toggle" type="checkbox">
-                          <label for="collapsible-${
-                            this.dbData.name
-                          }" class="lbl-toggle">Description</label>
-                          <div class="collapsible-content">
-                            <div class="content-inner">
-                            <p class="database-description">${
-                              this.dbData.description
-                            }</p>
-                            </div>
-                          </div>
-                        </div>
-  
-               
-                  <ul class="database-list-resourcetype">
-                  ${contentTypesMap.join("")}
-                       <ul>
-                  </li>`
+          <h5><a style="display:inline" href="${this.dbData.url}" target="_blank">${this.dbData.name}</a>
+<div class="wrap-collabsible" style="display:inline"  >
+                  <input id="collapsible-${this.dbData.name}" class="toggle" type="checkbox">
+                  <label for="collapsible-${this.dbData.name}" class="lbl-toggle"><img src="https://www.rocky.edu/sites/default/files/circle-question-light2.png" width=16px style="margin-bottom:5px;"alt=""> </label>
+                  <div class="collapsible-content">
+                    <div class="content-inner">
+                    <p class="database-description">${this.dbData.description}</p>
+                    </div>
+                  </div>
+                </div></h5>
+          <ul class="database-list-resourcetype">
+          ${contentTypesMap.join("")}
+               <ul>
+   
+          
+          </li>`
+          
         );
       };
         const dbNode = document.getElementById(this.quality);
