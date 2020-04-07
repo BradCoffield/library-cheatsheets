@@ -43,7 +43,7 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
 
   blocksForProduction.forEach(blockName => {
     if (blockName === "ebsco_api_a9h") {
-      document.getElementById("ebsco_api_a9h-heading").innerHTML = "Academic Search Complete"
+      document.getElementById("ebsco_api_a9h-heading").innerHTML = "Articles from Academic Search Complete"
       createEbscoApiBlock(proxyPrepend, dataForThisCheatsheet.ebsco_api_a9h);
       // ebscoBlockInitialize(dataForThisCheatsheet.ebsco_api_a9h);
     }
@@ -70,7 +70,7 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
       createDPLABlock(dataForThisCheatsheet.dpla);
     }
     if (blockName === "primo_quick_search") {
-      document.getElementById("primo_quick_search-heading").innerHTML = "RMC Power Search"
+      document.getElementById("primo_quick_search-heading").innerHTML = "RMC Power Search: Books and more"
       createPrimoQuickSearch();
     }
     if (blockName === "databases"){  

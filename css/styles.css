@@ -1,6 +1,17 @@
 /* body {background: moccasin} */
-.cheatsheet-block{border: 1px solid gray}
+/* .cheatsheet-block{border: 1px solid gray} */
+.cheatsheet-block-interior {
+  margin-left: 20px;
+  margin-bottom:4rem;
+}
+#ebsco_api_a9h-interior ul li{
+  font-size: 14px!important;
+  margin-bottom: 5px;
 
+}
+#ebsco_api_a9h-interior ul {
+  list-style-type: disc;
+}
 /* FANCY PRELOADER CSSSSSSSS */
 /* TRIPLE SPINNER  https://codepen.io/camdenfoucht/pen/BVxawq*/
 

@@ -7,7 +7,7 @@ const BlockContent = require("../../domClasses/blockContent");
 const rmcLibDataDocument = require("../../db/library-cheatsheets-single-document");
 
 module.exports = async blockData => {
-  const howManyWeWant = 5;
+  const howManyWeWant = 7;
   let totalDisplayed = 0;
 
   let uidsWanted = [];
@@ -70,6 +70,7 @@ module.exports = async blockData => {
               </div>
           </a>
       </div>
+      
   </li>`;
     let append = new RmcNewBooks(theBookStuff);
     append.getToAppending();
@@ -94,6 +95,7 @@ module.exports = async blockData => {
       // checkThisBook(i);
 
       // totalDisplayed++;
-    }
+    } 
   }
+ 
 };
