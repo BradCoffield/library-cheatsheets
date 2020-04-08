@@ -7,7 +7,7 @@ const BlockContent = require("../../domClasses/blockContent");
 const rmcLibDataDocument = require("../../db/library-cheatsheets-single-document");
 
 module.exports = async blockData => {
-  const howManyWeWant = 7;
+  const howManyWeWant = 8;
   let totalDisplayed = 0;
 
   let uidsWanted = [];
@@ -36,7 +36,7 @@ module.exports = async blockData => {
       }
       return unique_random_numbers;
     };
-    var ourRandoms = getRandomNumbers(4, rawData.length);
+    var ourRandoms = getRandomNumbers(howManyWeWant, rawData.length);
     // console.log(bookResults.length, ourRandoms);
 
     for (i = 0; totalDisplayed < howManyWeWant; i++) {

@@ -8,7 +8,7 @@ module.exports = async proxyPrepend => {
   const cheatsheetPage = document.querySelector(".subjectName").id;
 
  let prepDom = document.getElementById("databases-interior")
- prepDom.insertAdjacentHTML("beforeend","<div id='excellent_for'>Excellent For</div>")
+ prepDom.insertAdjacentHTML("beforeend","<div id='excellent_for'></div>")
 //  prepDom.insertAdjacentHTML("beforeend","<div id='good_for'>Good for</div>")
 
 

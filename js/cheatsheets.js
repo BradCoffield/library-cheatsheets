@@ -61,7 +61,7 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
       createPrimoArticlesBlock(dataForThisCheatsheet.primo_article_searches);
     }
     if (blockName === "primo_book_searches") {
-      document.getElementById("primo_book_searches-heading").innerHTML = "Available Books"
+      document.getElementById("primo_book_searches-heading").innerHTML = "Selected Books from RMC Library"
       // console.log("primo_book_searchesINIT");
       createPrimoBooksBlock(dataForThisCheatsheet.primo_book_searches);
     }
