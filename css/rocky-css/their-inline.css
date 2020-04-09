@@ -1,0 +1,40 @@
+@media only screen and (min-width: 768px) {
+  .rowHero {
+    background-image: url(https://www.rocky.edu/sites/default/files/styles/inner_hero/public/inner_hero_academics_0.jpg?itok=WLolvjVV);
+  }
+}
+@media only screen and (max-width: 767px) {
+  .rowHero {
+    background-image: url(https://www.rocky.edu/sites/default/files/styles/inner_hero_mob/public/inner_hero_academics_0.jpg?itok=YaHkfZ67);
+  }
+}
+@media only screen and (min-width: 768px) {
+  .billboard.bb1 {
+    background-image: url(https://www.rocky.edu/sites/default/files/styles/hero_bill/public/academics-bill01.jpg?itok=lD-sb5jc);
+  }
+}
+@media only screen and (max-width: 767px) {
+  .billboard.bb1 {
+    background-image: url(https://www.rocky.edu/sites/default/files/styles/hero_bill_mob/public/academics-bill01.jpg?itok=oJ56bkWV);
+  }
+}
+@media only screen and (min-width: 768px) {
+  .billboard.bb2 {
+    background-image: url(https://www.rocky.edu/sites/default/files/styles/hero_bill/public/innerbill2.jpg?itok=cexbl-ko);
+  }
+}
+@media only screen and (max-width: 767px) {
+  .billboard.bb2 {
+    background-image: url(https://www.rocky.edu/sites/default/files/styles/hero_bill_mob/public/innerbill2.jpg?itok=D366oysV);
+  }
+}
+@media only screen and (min-width: 768px) {
+  .billboard.bb3 {
+    background-image: url(https://www.rocky.edu/sites/default/files/styles/hero_bill/public/academics-bill03.jpg?itok=6I2jeK7d);
+  }
+}
+@media only screen and (max-width: 767px) {
+  .billboard.bb3 {
+    background-image: url(https://www.rocky.edu/sites/default/files/styles/hero_bill_mob/public/academics-bill03.jpg?itok=DG26xRdW);
+  }
+}

@@ -1,5 +1,33 @@
-body {background: moccasin}
-.cheatsheet-block{border: 1px solid gray}
+/* body {background: moccasin} */
+/* .cheatsheet-block{border: 1px solid gray} */
+.cheatsheet-block-interior {
+  margin-left: 20px;
+  margin-bottom:4rem;
+}
+#ebsco_api_a9h-interior ul li, #primo_article_searches-interior ul li{
+  font-size: 14px!important;
+  margin-bottom: 5px;
+
+}
+#ebsco_api_a9h-interior ul, #primo_article_searches-interior ul {
+  list-style-type: disc;
+}
+#ebsco_api_a9h-wrap, #primo_article_searches-wrap, #databases-wrap, #weblinks_block-wrap{
+  max-width:47%;
+  float: left;
+  margin: 0 10px;
+}
+.database-li {
+  list-style-type: none!important ;margin-bottom: 0.5rem!important;
+
+}
+.database-li h5{
+  font-size: 16px!important;
+  
+}
+.database-list-resourcetype{
+  display: none;
+}
 
 /* FANCY PRELOADER CSSSSSSSS */
 /* TRIPLE SPINNER  https://codepen.io/camdenfoucht/pen/BVxawq*/

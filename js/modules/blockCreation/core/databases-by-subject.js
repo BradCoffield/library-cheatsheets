@@ -8,8 +8,8 @@ module.exports = async proxyPrepend => {
   const cheatsheetPage = document.querySelector(".subjectName").id;
 
  let prepDom = document.getElementById("databases-interior")
- prepDom.insertAdjacentHTML("beforeend","<div id='excellent_for'>Excellent For</div>")
- prepDom.insertAdjacentHTML("beforeend","<div id='good_for'>Good for</div>")
+ prepDom.insertAdjacentHTML("beforeend","<div id='excellent_for'></div>")
+//  prepDom.insertAdjacentHTML("beforeend","<div id='good_for'>Good for</div>")
 
 
   let myLabels = document.querySelectorAll(".lbl-toggle");
@@ -29,7 +29,7 @@ module.exports = async proxyPrepend => {
 
   let databasesData = await rmcDataGetCollection("databases");
   let dbData = await rmcDataGetDatabasesEF("English");
-  let dbDataGF = await rmcDataGetDatabasesGF("English")
+  // let dbDataGF = await rmcDataGetDatabasesGF("English")
  
   console.log(dbData);
 
@@ -86,18 +86,18 @@ module.exports = async proxyPrepend => {
     let newThing = new SubjectDatabase("excellent_for", dbObj);
     newThing.appendIt();
   });
-  dbDataGF.forEach(database => {
-    let name = database.name;
-    let url = "";
-    if (database.use_proxy) {
-      url = `${proxyPrepend}${database.url}`;
-    } else {
-      url = database.url;
-    }
-    let content_types = database.content_types;
-    let description = database.description;
-    let dbObj = { name, content_types, description, url };
-    let newThing = new SubjectDatabase("good_for", dbObj);
-    newThing.appendIt();
-  });
+  // dbDataGF.forEach(database => {
+  //   let name = database.name;
+  //   let url = "";
+  //   if (database.use_proxy) {
+  //     url = `${proxyPrepend}${database.url}`;
+  //   } else {
+  //     url = database.url;
+  //   }
+  //   let content_types = database.content_types;
+  //   let description = database.description;
+  //   let dbObj = { name, content_types, description, url };
+  //   let newThing = new SubjectDatabase("good_for", dbObj);
+  //   newThing.appendIt();
+  // });
 };

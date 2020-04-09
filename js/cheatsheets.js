@@ -25,6 +25,7 @@ const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
 const createPrimoQuickSearch = require("./modules/blockCreation/core/primo_quick_search");
 const createDbBySubject = require("./modules/blockCreation/core/databases-by-subject");
 
+/* ~actual stuff~ */
 (async () => {
   const proxyPrepend = await getProxy();
   const defaultOrderForBlocks = await getDefaultOrder();
@@ -42,29 +43,40 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
 
   blocksForProduction.forEach(blockName => {
     if (blockName === "ebsco_api_a9h") {
+      document.getElementById("ebsco_api_a9h-heading").innerHTML = "Articles from Academic Search Complete"
       createEbscoApiBlock(proxyPrepend, dataForThisCheatsheet.ebsco_api_a9h);
       // ebscoBlockInitialize(dataForThisCheatsheet.ebsco_api_a9h);
     }
     if (blockName === "weblinks_block") {
+      document.getElementById("weblinks_block-heading").innerHTML = "Trusted Websites"
       createWeblinksBlock(); //don't need args for this one
     }
     if (blockName === "citation_styles") {
+      document.getElementById("citation_styles-heading").innerHTML = "Citing Resources"
       // console.log("citation_stylesINIT");
       createCitationBlock(dataForThisCheatsheet);
     }
     if (blockName === "primo_article_searches") {
+      document.getElementById("primo_article_searches-heading").innerHTML = "Articles from RMC Power Search"
       createPrimoArticlesBlock(dataForThisCheatsheet.primo_article_searches);
     }
     if (blockName === "primo_book_searches") {
+      document.getElementById("primo_book_searches-heading").innerHTML = "Select Books from RMC Library"
       // console.log("primo_book_searchesINIT");
       createPrimoBooksBlock(dataForThisCheatsheet.primo_book_searches);
     }
     if (blockName === "dpla") {
+      document.getElementById("dpla-heading").innerHTML = "From the Digital Public Library of America"
       createDPLABlock(dataForThisCheatsheet.dpla);
     }
-    if (blockName === "primo_quick_search") {createPrimoQuickSearch();
+    if (blockName === "primo_quick_search") {
+      document.getElementById("primo_quick_search-heading").innerHTML = "RMC Power Search: Books and more"
+      createPrimoQuickSearch();
     }
-    if (blockName === "databases"){  createDbBySubject(proxyPrepend)}
+    if (blockName === "databases"){  
+      const cheatsheetPage = document.querySelector(".subjectName").id;
+      document.getElementById("databases-heading").innerHTML = `${cheatsheetPage} Databases`
+      createDbBySubject(proxyPrepend)}
   });
   
 
