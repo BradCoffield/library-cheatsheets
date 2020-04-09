@@ -7,7 +7,7 @@ const BlockContent = require("../../domClasses/blockContent");
 const rmcLibDataDocument = require("../../db/library-cheatsheets-single-document");
 
 module.exports = async blockData => {
-  const howManyWeWant = 8;
+  const howManyWeWant = 6;
   let totalDisplayed = 0;
 
   let uidsWanted = [];
