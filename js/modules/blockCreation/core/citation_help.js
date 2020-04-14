@@ -1,18 +1,16 @@
 const BlockContent = require("../../domClasses/blockContent");
 const cheatsheetsDocument = require("../../db/library-cheatsheets-single-document");
 
-module.exports = rawSheetData => {
+module.exports = (rawSheetData) => {
   console.log(rawSheetData);
   (async () => {
-     
-
-    rawSheetData.citation_styles.toUse.forEach(async styleWanted => {
+    rawSheetData.citation_styles.toUse.forEach(async (styleWanted) => {
       let citationStyleData = await cheatsheetsDocument(
         "CitationStylesRepository",
         styleWanted
       );
       // console.log(citationStyleData.styleWeblinks);
-      let contentForDom = `<h3>${citationStyleData.styleDisplayName}</h3><p class="heading-description">${citationStyleData.descriptionOfStyle}</p><p><h4>Available in the library</h4><ul><li><img src="${citationStyleData.styleBook.imgURL}" alt="Book cover of MLA Handbook"></img>${citationStyleData.styleBook.bookDescription} It is available for use <a href="${citationStyleData.styleBook.primoURL}" target="_blank">in the library.</a></li></ul></p><p><h4>Helpful Links</h4><ul id="${citationStyleData.styleDisplayName}-helpful-links-ul"><li>hi<li></ul></p>`;
+      let contentForDom = `<h3 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>${citationStyleData.styleDisplayName}</h3><div class="flex-container"><div class="flex-container"><img src="${citationStyleData.styleBook.imgURL}" alt="Book cover of MLA Handbook"  ></img><p style="max-width:250px;align-self:center;margin-left:16px;margin-right:32px;">${citationStyleData.styleBook.bookDescription} It is available for use <a href="${citationStyleData.styleBook.primoURL}" target="_blank">in the library.</a></p></div><div><h4 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>Helpful Links</h4><ul id="${citationStyleData.styleDisplayName}-helpful-links-ul"></ul></div></div>`;
 
       let domStuff = new BlockContent(
         contentForDom,
@@ -20,11 +18,12 @@ module.exports = rawSheetData => {
       );
       domStuff.getToAppending();
 
-      let helpfulLinksParseAppend = (function() {
+      let helpfulLinksParseAppend = (function () {
         let styleLinks = citationStyleData.styleWeblinks;
+        //<h5>Purdue OWL</h5>
         if (styleLinks.purdueOwlLinks) {
           let forDom = `
-          <h5>Purdue OWL</h5>
+          
           <li><a href="${styleLinks.purdueOwlLinks.primaryLink}" target="_blank">MLA Guide @ the OWL</a></li>
           <li><a href="${styleLinks.purdueOwlLinks.citingBookSourcesLink}" target="_blank">Citing Book Sources</a></li>
           <li><a href="${styleLinks.purdueOwlLinks.citingOnlineSourcesLink}" target="_blank">Citing Online Sources</a></li>

@@ -32,6 +32,20 @@ float: left;
   display: none;
 }
 
+.truncate {
+  width: 955px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-right: 3rem;
+}
+
 /* FANCY PRELOADER CSSSSSSSS */
 /* TRIPLE SPINNER  https://codepen.io/camdenfoucht/pen/BVxawq*/
 
