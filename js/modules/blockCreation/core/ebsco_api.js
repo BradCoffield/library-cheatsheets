@@ -14,10 +14,10 @@ module.exports = (proxyPrepend, blockData) => {
     //  console.log(document)
     let ebscoDoc = await rmcLibDataDocument("ebsco-searches", document);
     // console.log(ebscoDoc)
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
       let resultBase = ebscoDoc.results[i];
 
-      const forAppending = `<li class="ebsco-li"><a href="${proxyPrepend}${resultBase.permalink}" target="_blank">${resultBase.articleTitle}</a></li>`;
+      const forAppending = `<li class="ebsco-li truncate"><a href="${proxyPrepend}${resultBase.permalink}" target="_blank">${resultBase.articleTitle}</a></li>`;
       let tt = new BlockContent(forAppending, "ebsco_api_a9h");
       tt.getToAppending();
     }

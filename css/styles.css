@@ -2,7 +2,7 @@
 /* .cheatsheet-block{border: 1px solid gray} */
 .cheatsheet-block-interior {
   margin-left: 20px;
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 }
 #ebsco_api_a9h-interior ul li,
 #primo_article_searches-interior ul li {
@@ -33,7 +33,7 @@ float: left;
 }
 
 .truncate {
-  width: 955px;
+  width: 855px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -237,4 +237,8 @@ float: left;
 }
 p.content-text {
   margin-bottom: 1px;
+}
+
+#adv-search-link a {
+  color: inherit;
 }
