@@ -74,3 +74,7 @@ _site/LICENSE
 _site/README.md
 
 \.vscode/
+
+js/bundled.js
+
+from working drupal.md
