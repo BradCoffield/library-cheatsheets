@@ -31,4 +31,10 @@ module.exports = (proxyPrepend, blockData) => {
       getEbscoAndAppend(i);
     });
   }
+  let linksList = document.getElementById("ebsco_api_a9h-ul");
+  linksList.insertAdjacentHTML(
+    "afterend",
+    `<div id="ebsco_api_a9h-afterThangs"><a href="#">Run a new search</a></div>`
+  );
+  linksList.insertAdjacentHTML("beforeend", `Results for: _____`);
 };
