@@ -1,7 +1,45 @@
-#ebsco_api_a9h-afterThangs {
-  padding: 5px;
-  border: 1px dotted lightgray;
+.containingRow [id]::before {
   display: block;
+  content: none !important;
+  margin-top: -175px;
+  height: 175px;
+  visibility: hidden;
+}
+
+#primo_book_searches-interior .book-cover {
+  box-shadow: 0px 0px 2px darkgray;
+}
+#primo_book_searches-interior .new-books-li {
+  box-shadow: 1px 1px 3px lightgray;
+  padding: 1rem;
+}
+#primo_book_searches-interior ul li {
+  display: inline-block;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+#primo_book_searches-interior .book-cover {
+  max-width: 145px;
+  max-height: 215px;
+}
+
+#ebsco_api_a9h-afterThangs,
+primo_article_searches-afterThangs {
+  margin-top: 1rem;
+}
+
+.caps {
+  text-transform: uppercase;
+}
+#ebsco_api_a9h-beforeThangs,
+#primo_article_searches-beforeThangs {
+  /* border-left: 1px solid lightgray; */
+  padding: 0px 0px 10px;
+  /* padding-left: 10px; */
+}
+.ebsco-li,
+.primo-article-li {
+  list-style-type: square;
 }
 
 /* body {background: moccasin} */
@@ -38,12 +76,12 @@ float: left;
   display: none;
 }
 
-.truncate {
+/* .truncate {
   width: 855px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */
 
 .flex-container {
   display: flex;

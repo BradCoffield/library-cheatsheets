@@ -22,8 +22,22 @@ module.exports = async (blockData) => {
       tt.getToAppending();
       // the first permalink should be https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1e7lb5m/TN_gale_ofa113523425
     }
+    domFinishing(primoSearch.searchTerm);
   };
   // console.log(blockData);
   // Grabs the uid from the desired ebsco searches and then sends them to be gotten from rmc-lib-data
   getPrimoSearchesAndAppend(blockData.toUse[0]);
+  let domFinishing = (searchTerms) => {
+    let linksList = document.getElementById("primo_article_searches-ul");
+
+    linksList.insertAdjacentHTML(
+      "beforebegin",
+      `<div id="primo_article_searches-beforeThangs"><span class="caps"> ${searchTerms}</span> </div>`
+    );
+
+    linksList.insertAdjacentHTML(
+      "afterend",
+      `<div id="primo_article_searches-afterThangs"><a href="https://rocky-primo.hosted.exlibrisgroup.com/primo-explore/search?sortby=rank&vid=01TRAILS_ROCKY&lang=en_US&mode=advanced" target="_blank"><button class="btn">Run a new search</button></a></div>`
+    );
+  };
 };

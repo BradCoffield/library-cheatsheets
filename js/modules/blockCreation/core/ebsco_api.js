@@ -21,6 +21,7 @@ module.exports = (proxyPrepend, blockData) => {
       let tt = new BlockContent(forAppending, "ebsco_api_a9h");
       tt.getToAppending();
     }
+    domFinishing(ebscoDoc.searchTerm);
   };
 
   // Grabs the uid from the desired ebsco searches and then sends them to be gotten from rmc-lib-data
@@ -31,10 +32,16 @@ module.exports = (proxyPrepend, blockData) => {
       getEbscoAndAppend(i);
     });
   }
-  let linksList = document.getElementById("ebsco_api_a9h-ul");
-  linksList.insertAdjacentHTML(
-    "afterend",
-    `<div id="ebsco_api_a9h-afterThangs"><a href="#">Run a new search</a></div>`
-  );
-  linksList.insertAdjacentHTML("beforeend", `Results for: _____`);
+
+  let domFinishing = (searchTerms) => {
+    let linksList = document.getElementById("ebsco_api_a9h-ul");
+    linksList.insertAdjacentHTML(
+      "afterend",
+      `<div id="ebsco_api_a9h-afterThangs"><a href="http://ezproxy.rocky.edu:2048/login?url=https://search.ebscohost.com/login.aspx?profile=ehost&defaultdb=a9h&authtype=ip&custid=s8250848" target="_blank"><button class="btn">Run a new search</button></a></div>`
+    );
+    linksList.insertAdjacentHTML(
+      "beforebegin",
+      `<div id="ebsco_api_a9h-beforeThangs"><span class="caps"> ${searchTerms}</span> </div>`
+    );
+  };
 };
