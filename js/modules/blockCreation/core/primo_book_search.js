@@ -6,20 +6,20 @@ const NeedUL = require("../../domClasses/needUL");
 const BlockContent = require("../../domClasses/blockContent");
 const rmcLibDataDocument = require("../../db/library-cheatsheets-single-document");
 
-module.exports = async blockData => {
-  const howManyWeWant = 6;
+module.exports = async (blockData) => {
+  const howManyWeWant = 5;
   let totalDisplayed = 0;
 
   let uidsWanted = [];
-  blockData.toUse.forEach(butter => {
+  blockData.toUse.forEach((butter) => {
     uidsWanted.push(butter);
   });
 
-  uidsWanted.forEach(async uid => {
+  uidsWanted.forEach(async (uid) => {
     let bookResults = await rmcLibDataDocument("primo-book-searches", uid);
     // console.log(bookResults.results);
     const rawData = bookResults.results;
-    const getRandomNumbers = function(howMany, upperLimit) {
+    const getRandomNumbers = function (howMany, upperLimit) {
       var limit = howMany,
         amount = 1,
         lower_bound = 1,
@@ -51,8 +51,10 @@ module.exports = async blockData => {
     let baseDom = document.getElementById("primo_book_searches-interior");
     baseDom.insertAdjacentHTML("beforeend", "<ul id='new-books'></ul>");
 
-   let theIsbn = ""
-    if(bookData && bookData.isbn){ theIsbn = bookData.isbn[0];}
+    let theIsbn = "";
+    if (bookData && bookData.isbn) {
+      theIsbn = bookData.isbn[0];
+    }
     let theTitle = bookData.title;
     let catalogLink = `<a href="https://rocky-primo.hosted.exlibrisgroup.com/permalink/f/1j18u99/${bookData.sourceid[0]}${bookData.sourcerecordid[0]}"
    target="_blank">`;
@@ -77,7 +79,7 @@ module.exports = async blockData => {
 
     // lets snag the new book dom and check it
     let newBook = document.getElementById(`cover${iterator}`);
-    newBook.addEventListener("load", function() {
+    newBook.addEventListener("load", function () {
       // console.log(newBook.id,'My width is: ', this.naturalWidth);
       if (this.naturalHeight == 1) {
         document.getElementById(`new-books-li-${iterator}`).outerHTML = "";
@@ -95,7 +97,6 @@ module.exports = async blockData => {
       // checkThisBook(i);
 
       // totalDisplayed++;
-    } 
+    }
   }
- 
 };
