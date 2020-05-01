@@ -75,7 +75,7 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
     }
     if (blockName === "primo_quick_search") {
       document.getElementById("primo_quick_search-heading").innerHTML =
-        "RMC Power Search: Books and more";
+        "RMC Power Search: Books, articles, and more from RMC and beyond";
       createPrimoQuickSearch();
     }
     if (blockName === "databases") {
