@@ -24,8 +24,10 @@ module.exports = async (proxyPrepend) => {
     });
   });
 
-  const whichPageWeWorkingWith = document.querySelector(".subjectName").id;
+  let whichPageWeWorkingWith = document.querySelector(".subjectName").id;
   console.log(whichPageWeWorkingWith);
+  if (whichPageWeWorkingWith=="Creative Writing"){whichPageWeWorkingWith="English"}
+  if (whichPageWeWorkingWith=="Literature"){whichPageWeWorkingWith="English"}
 
   let databasesData = await rmcDataGetCollection("databases");
   let dbData = await rmcDataGetDatabasesEF(whichPageWeWorkingWith);

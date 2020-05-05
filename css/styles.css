@@ -1,3 +1,8 @@
+.cheatsheets-link-description {
+  font-size: 14px!important;
+  padding-left:8px;
+}
+
 .containingRow [id]::before {
   display: block;
   content: none !important;

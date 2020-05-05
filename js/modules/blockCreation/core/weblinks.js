@@ -27,7 +27,7 @@ module.exports = async () => {
           return;
         } else linkLink = i.url;
      
-        let forDom = `<li><a href="${linkLink}">${linkDisplayName}</a><p>${linkDescription}</p></li>`;
+        let forDom = `<li><a href="${linkLink}" class="cheatsheets-link-name">${linkDisplayName}</a><p class="cheatsheets-link-description">${linkDescription}</p></li>`;
         let weblinksContent = new BlockContent(forDom, "weblinks_block");
       
         weblinksContent.getToAppending();

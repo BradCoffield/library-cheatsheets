@@ -233,8 +233,17 @@ module.exports = async proxyPrepend => {
       }
     });
   });
-  const whichPageWeWorkingWith = document.querySelector(".subjectName").id;
+  let whichPageWeWorkingWith = document.querySelector(".subjectName").id;
   console.log(whichPageWeWorkingWith);
+
+  if (whichPageWeWorkingWith == "Creative Writing") {
+    whichPageWeWorkingWith = "English";
+  }
+
+  if (whichPageWeWorkingWith == "Literature") {
+    whichPageWeWorkingWith = "English";
+  }
+
   let databasesData = await rmcDataGetCollection("databases");
   let dbData = await rmcDataGetDatabasesEF(whichPageWeWorkingWith); // let dbDataGF = await rmcDataGetDatabasesGF("English")
 
@@ -562,7 +571,7 @@ module.exports = async () => {
           return;
         } else linkLink = i.url;
 
-        let forDom = `<li><a href="${linkLink}">${linkDisplayName}</a><p>${linkDescription}</p></li>`;
+        let forDom = `<li><a href="${linkLink}" class="cheatsheets-link-name">${linkDisplayName}</a><p class="cheatsheets-link-description">${linkDescription}</p></li>`;
         let weblinksContent = new BlockContent(forDom, "weblinks_block");
         weblinksContent.getToAppending();
       }

@@ -21,5 +21,8 @@
     "babelify": "^10.0.0",
     "node-fetch": "^2.6.0",
     "xml2js": "^0.4.22"
+  },
+  "devDependencies": {
+    "browserify": "^16.5.1"
   }
 }
