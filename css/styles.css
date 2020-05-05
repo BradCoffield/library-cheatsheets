@@ -3,6 +3,10 @@
   padding-left:8px;
 }
 
+#adv-search-link a {
+  color:inherit!important}
+  
+  
 .containingRow [id]::before {
   display: block;
   content: none !important;
