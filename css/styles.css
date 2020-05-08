@@ -1,12 +1,16 @@
+.clear {
+  clear: both;
+}
+
 .cheatsheets-link-description {
-  font-size: 14px!important;
-  padding-left:8px;
+  font-size: 14px !important;
+  padding-left: 8px;
 }
 
 #adv-search-link a {
-  color:inherit!important}
-  
-  
+  color: inherit !important;
+}
+
 .containingRow [id]::before {
   display: block;
   content: none !important;
