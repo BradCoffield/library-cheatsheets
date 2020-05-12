@@ -10,7 +10,7 @@ module.exports = (rawSheetData) => {
         styleWanted
       );
       // console.log(citationStyleData.styleWeblinks);
-      let contentForDom = `<h3 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>${citationStyleData.styleDisplayName}</h3><div class="flex-container"><div class="flex-container"><img src="${citationStyleData.styleBook.imgURL}" alt="Book cover of MLA Handbook"  ></img><p style="max-width:250px;align-self:center;margin-left:16px;margin-right:32px;">${citationStyleData.styleBook.bookDescription} It is available for use <a href="${citationStyleData.styleBook.primoURL}" target="_blank">in the library.</a></p></div><div><h4 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>Helpful Links</h4><ul id="${citationStyleData.styleDisplayName}-helpful-links-ul"></ul></div></div>`;
+      let contentForDom = `<h3 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>${citationStyleData.styleDisplayName}</h3><div class="flex-container" style="margin: 0rem 0rem 4rem"><div class="flex-container"><img src="${citationStyleData.styleBook.imgURL}" alt="Book cover of ${citationStyleData.styleDisplayName} Handbook"  ></img><p style="max-width:250px;align-self:center;margin-left:16px;margin-right:32px;">${citationStyleData.styleBook.bookDescription} It is available for use <a href="${citationStyleData.styleBook.primoURL}" target="_blank">in the library.</a></p></div><div><h4 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>Helpful Links</h4><ul id="${citationStyleData.styleDisplayName}-helpful-links-ul"></ul></div></div>`;
 
       let domStuff = new BlockContent(
         contentForDom,
@@ -24,7 +24,7 @@ module.exports = (rawSheetData) => {
         if (styleLinks.purdueOwlLinks) {
           let forDom = `
           
-          <li><a href="${styleLinks.purdueOwlLinks.primaryLink}" target="_blank">MLA Guide @ the OWL</a></li>
+          <li><a href="${styleLinks.purdueOwlLinks.primaryLink}" target="_blank">Guide @ the OWL</a></li>
           <li><a href="${styleLinks.purdueOwlLinks.citingBookSourcesLink}" target="_blank">Citing Book Sources</a></li>
           <li><a href="${styleLinks.purdueOwlLinks.citingOnlineSourcesLink}" target="_blank">Citing Online Sources</a></li>
           <li><a href="${styleLinks.purdueOwlLinks.samplePaperLink}" target="_blank">Sample Paper</a></li>`;
