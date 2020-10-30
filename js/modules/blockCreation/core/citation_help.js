@@ -22,17 +22,31 @@ module.exports = (rawSheetData) => {
         let styleLinks = citationStyleData.styleWeblinks;
         //<h5>Purdue OWL</h5>
         if (styleLinks.purdueOwlLinks) {
-          let forDom = `
+          if (styleLinks.purdueOwlLinks.samplePaperLink) {
+            let forDom = `
           
           <li><a href="${styleLinks.purdueOwlLinks.primaryLink}" target="_blank">Guide @ the OWL</a></li>
           <li><a href="${styleLinks.purdueOwlLinks.citingBookSourcesLink}" target="_blank">Citing Book Sources</a></li>
           <li><a href="${styleLinks.purdueOwlLinks.citingOnlineSourcesLink}" target="_blank">Citing Online Sources</a></li>
           <li><a href="${styleLinks.purdueOwlLinks.samplePaperLink}" target="_blank">Sample Paper</a></li>`;
-          let domStuff2 = new BlockContent(
-            forDom,
-            `${citationStyleData.styleDisplayName}-helpful-links-ul`
-          );
-          domStuff2.getToAppending();
+            let domStuff2 = new BlockContent(
+              forDom,
+              `${citationStyleData.styleDisplayName}-helpful-links-ul`
+            );
+            domStuff2.getToAppending();
+          } else {
+            let forDom = `
+          
+          <li><a href="${styleLinks.purdueOwlLinks.primaryLink}" target="_blank">Guide @ the OWL</a></li>
+          <li><a href="${styleLinks.purdueOwlLinks.citingBookSourcesLink}" target="_blank">Citing Book Sources</a></li>
+          <li><a href="${styleLinks.purdueOwlLinks.citingOnlineSourcesLink}" target="_blank">Citing Online Sources</a></li>
+          `;
+            let domStuff2 = new BlockContent(
+              forDom,
+              `${citationStyleData.styleDisplayName}-helpful-links-ul`
+            );
+            domStuff2.getToAppending();
+          }
         }
       })();
     });
