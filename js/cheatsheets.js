@@ -24,21 +24,28 @@ const createCitationBlock = require("./modules/blockCreation/core/citation_help"
 const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
 const createPrimoQuickSearch = require("./modules/blockCreation/core/primo_quick_search");
 const createDbBySubject = require("./modules/blockCreation/core/databases-by-subject");
+// const createEbooksBlock = require("./modules/blockCreation/core/ebooks");
+// const createInstructionVideosBlock = require("./modules/blockCreation/core/instruction-videos");
 
 /* ~actual stuff~ */
 (async () => {
+  //gets our proxy url from firebase because we will need it probably
   const proxyPrepend = await getProxy();
+  //gets the default order for blocks from firebase. Doing it like this lets them all be consistent and lets us change the order for all of them once.
   const defaultOrderForBlocks = await getDefaultOrder();
+  //gets raw data for the cheatsheet from firebase
   const dataForThisCheatsheet = await getSingleCheatsheet();
+  //looks at the data for the cheatsheet to see what blocks it wants. Cheatsheets have the option to not use blocks.
   const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet);
 
-  //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
+  //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page. that way we can then insert the actual content to the shell on
   defaultOrderForBlocks.forEach((block) => {
     if (blocksForProduction.includes(block)) {
       buildBlockShell(block);
     }
   });
 
+  //now that the empty containers are on our page we can now populate them.
   blocksForProduction.forEach((blockName) => {
     if (blockName === "ebsco_api_a9h") {
       document.getElementById("ebsco_api_a9h-heading").innerHTML =
@@ -84,6 +91,15 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
         "databases-heading"
       ).innerHTML = `${cheatsheetPage} Databases`;
       createDbBySubject(proxyPrepend);
+    }
+
+    if (blockName === "ebooks_block") {
+      document.getElementById("ebooks_block-heading").innerHTML = "eBooks";
+      // createEbooksBlock();
+    }
+    if (blockName === "instruction_videos") {
+      document.getElementById("instruction_videos-heading").innerHTML = "Instruction Videos";
+      // createInstructionVideosBlock();
     }
   });
 })();
