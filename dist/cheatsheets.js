@@ -43,20 +43,29 @@ const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
 const createPrimoQuickSearch = require("./modules/blockCreation/core/primo_quick_search");
 
 const createDbBySubject = require("./modules/blockCreation/core/databases-by-subject");
+
+const createEbooksBlock = require("./modules/blockCreation/core/ebooks");
+
+const createInstructionVideosBlock = require("./modules/blockCreation/core/instruction-videos");
 /* ~actual stuff~ */
 
 
 (async () => {
-  const proxyPrepend = await getProxy();
-  const defaultOrderForBlocks = await getDefaultOrder();
-  const dataForThisCheatsheet = await getSingleCheatsheet();
-  const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet); //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page
+  //gets our proxy url from firebase because we will need it probably
+  const proxyPrepend = await getProxy(); //gets the default order for blocks from firebase. Doing it like this lets them all be consistent and lets us change the order for all of them once.
+
+  const defaultOrderForBlocks = await getDefaultOrder(); //gets raw data for the cheatsheet from firebase
+
+  const dataForThisCheatsheet = await getSingleCheatsheet(); //looks at the data for the cheatsheet to see what blocks it wants. Cheatsheets have the option to not use blocks.
+
+  const blocksForProduction = blocksForCheatsheet(dataForThisCheatsheet); //   going in the desired order if it exists as a block wanted on this page it's shell gets appended to the page. that way we can then insert the actual content to the shell on
 
   defaultOrderForBlocks.forEach(block => {
     if (blocksForProduction.includes(block)) {
       buildBlockShell(block);
     }
-  });
+  }); //now that the empty containers are on our page we can now populate them.
+
   blocksForProduction.forEach(blockName => {
     if (blockName === "ebsco_api_a9h") {
       document.getElementById("ebsco_api_a9h-heading").innerHTML = "Articles from Academic Search Complete";
@@ -100,10 +109,20 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
       document.getElementById("databases-heading").innerHTML = `${cheatsheetPage} Databases`;
       createDbBySubject(proxyPrepend);
     }
+
+    if (blockName === "ebooks_block") {
+      document.getElementById("ebooks_block-heading").innerHTML = "eBooks";
+      createEbooksBlock();
+    }
+
+    if (blockName === "instruction_videos") {
+      document.getElementById("instruction_videos-heading").innerHTML = "Instruction Videos";
+      createInstructionVideosBlock();
+    }
   });
 })();
 
-},{"./modules/blockCreation/ancillary/dpla":2,"./modules/blockCreation/core/citation_help":3,"./modules/blockCreation/core/databases-by-subject":4,"./modules/blockCreation/core/ebsco_api":5,"./modules/blockCreation/core/primo_article_search":6,"./modules/blockCreation/core/primo_book_search":7,"./modules/blockCreation/core/primo_quick_search":8,"./modules/blockCreation/core/weblinks":9,"./modules/db/get-default-order":10,"./modules/db/get-proxy-prepend":11,"./modules/db/get-single-cheatsheet":12,"./modules/db/library-cheatsheets-single-collection":13,"./modules/db/library-cheatsheets-single-document":14,"./modules/db/rmc-lib-data-single-collection":17,"./modules/db/rmc-lib-data-single-document":18,"./modules/domClasses/blockContent":19,"./modules/domClasses/needUL":20,"./modules/services/blocks-for-this-cheatsheet":21,"./modules/services/buildBlockShell":22}],2:[function(require,module,exports){
+},{"./modules/blockCreation/ancillary/dpla":2,"./modules/blockCreation/core/citation_help":3,"./modules/blockCreation/core/databases-by-subject":4,"./modules/blockCreation/core/ebooks":5,"./modules/blockCreation/core/ebsco_api":6,"./modules/blockCreation/core/instruction-videos":7,"./modules/blockCreation/core/primo_article_search":8,"./modules/blockCreation/core/primo_book_search":9,"./modules/blockCreation/core/primo_quick_search":10,"./modules/blockCreation/core/weblinks":11,"./modules/db/get-default-order":12,"./modules/db/get-proxy-prepend":13,"./modules/db/get-single-cheatsheet":14,"./modules/db/library-cheatsheets-single-collection":15,"./modules/db/library-cheatsheets-single-document":16,"./modules/db/rmc-lib-data-single-collection":19,"./modules/db/rmc-lib-data-single-document":20,"./modules/domClasses/blockContent":21,"./modules/domClasses/needUL":22,"./modules/services/blocks-for-this-cheatsheet":23,"./modules/services/buildBlockShell":24}],2:[function(require,module,exports){
 const NeedUL = require("../../domClasses/needUL");
 
 const BlockContent = require("../../domClasses/blockContent"); // const rmcLibDataDocument = require("../../db/rmc-lib-data-single-document");
@@ -159,7 +178,7 @@ module.exports = async blockData => {
   */
 };
 
-},{"../../domClasses/blockContent":19,"../../domClasses/needUL":20}],3:[function(require,module,exports){
+},{"../../domClasses/blockContent":21,"../../domClasses/needUL":22}],3:[function(require,module,exports){
 const BlockContent = require("../../domClasses/blockContent");
 
 const cheatsheetsDocument = require("../../db/library-cheatsheets-single-document");
@@ -217,7 +236,7 @@ module.exports = rawSheetData => {
   })();
 };
 
-},{"../../db/library-cheatsheets-single-document":14,"../../domClasses/blockContent":19}],4:[function(require,module,exports){
+},{"../../db/library-cheatsheets-single-document":16,"../../domClasses/blockContent":21}],4:[function(require,module,exports){
 const NeedUL = require("../../domClasses/needUL");
 
 const BlockContent = require("../../domClasses/blockContent");
@@ -331,7 +350,35 @@ module.exports = async proxyPrepend => {
   // });
 };
 
-},{"../../db/rmc-lib-data-databases-EF":15,"../../db/rmc-lib-data-databases-GF":16,"../../db/rmc-lib-data-single-collection":17,"../../domClasses/blockContent":19,"../../domClasses/needUL":20}],5:[function(require,module,exports){
+},{"../../db/rmc-lib-data-databases-EF":17,"../../db/rmc-lib-data-databases-GF":18,"../../db/rmc-lib-data-single-collection":19,"../../domClasses/blockContent":21,"../../domClasses/needUL":22}],5:[function(require,module,exports){
+const NeedUL = require("../../domClasses/needUL");
+
+const getSingleCollection = require("../../db/library-cheatsheets-single-collection");
+
+const BlockContent = require("../../domClasses/blockContent");
+
+module.exports = async () => {
+  console.log("ebooks creation block"); //build a UL within the already created block
+
+  let initDom = new NeedUL("ebooks_block");
+  initDom.getToAppending();
+  let theUL = document.getElementById("ebooks_block-ul");
+  const topicForThisPage = document.querySelector(".subjectName").id;
+  let rawData = await getSingleCollection("eBooks"); //make ebooks
+
+  rawData.forEach(i => {
+    i.associatedSubjects.forEach(q => {
+      if (q == topicForThisPage) {
+        console.log("yesss", q, i);
+        let forDom = `<li><a href="${i.url}" target="_blank" class="cheatsheets-link-name">${i.title}</a></li>`;
+        let ebooksContent = new BlockContent(forDom, "ebooks_block");
+        ebooksContent.getToAppending();
+      }
+    });
+  });
+};
+
+},{"../../db/library-cheatsheets-single-collection":15,"../../domClasses/blockContent":21,"../../domClasses/needUL":22}],6:[function(require,module,exports){
 const NeedUL = require("../../domClasses/needUL");
 
 const BlockContent = require("../../domClasses/blockContent");
@@ -374,7 +421,35 @@ module.exports = (proxyPrepend, blockData) => {
   };
 };
 
-},{"../../db/library-cheatsheets-single-document":14,"../../domClasses/blockContent":19,"../../domClasses/needUL":20}],6:[function(require,module,exports){
+},{"../../db/library-cheatsheets-single-document":16,"../../domClasses/blockContent":21,"../../domClasses/needUL":22}],7:[function(require,module,exports){
+const NeedUL = require("../../domClasses/needUL");
+
+const getSingleCollection = require("../../db/library-cheatsheets-single-collection");
+
+const BlockContent = require("../../domClasses/blockContent");
+
+module.exports = async () => {
+  //build a UL within the already created block
+  let initDom = new NeedUL("instruction_videos");
+  initDom.getToAppending();
+  let theUL = document.getElementById("instruction_videos-ul");
+  const topicForThisPage = document.querySelector(".subjectName").id;
+  let rawData = await getSingleCollection("InstructionVideos");
+  rawData.forEach(i => {
+    if (i.associatedSubjects) {
+      i.associatedSubjects.forEach(q => {
+        if (q == topicForThisPage) {
+          console.log("yesss", q, i);
+          let forDom = `<li><a href="${i.url}" target="_blank" class="cheatsheets-link-name">${i.name}</a> <span style="font-size:12px">Length: ${i.length}</span></li>`;
+          let videosContent = new BlockContent(forDom, "instruction_videos");
+          videosContent.getToAppending();
+        }
+      });
+    }
+  });
+};
+
+},{"../../db/library-cheatsheets-single-collection":15,"../../domClasses/blockContent":21,"../../domClasses/needUL":22}],8:[function(require,module,exports){
 const NeedUL = require("../../domClasses/needUL");
 
 const BlockContent = require("../../domClasses/blockContent");
@@ -411,7 +486,7 @@ module.exports = async blockData => {
   };
 };
 
-},{"../../db/library-cheatsheets-single-document":14,"../../domClasses/blockContent":19,"../../domClasses/needUL":20}],7:[function(require,module,exports){
+},{"../../db/library-cheatsheets-single-document":16,"../../domClasses/blockContent":21,"../../domClasses/needUL":22}],9:[function(require,module,exports){
 /* I need to create a function that takes a single piece of data (corresponding to the random number) and this function manages adding it to the dom and checking it
 and either ++ or not and then be done or something. I don't need to hide the whole UL just hide each new LI until sure it's fine. 
 */
@@ -517,7 +592,7 @@ module.exports = async blockData => {
   }
 };
 
-},{"../../db/library-cheatsheets-single-document":14,"../../domClasses/blockContent":19,"../../domClasses/needUL":20}],8:[function(require,module,exports){
+},{"../../db/library-cheatsheets-single-document":16,"../../domClasses/blockContent":21,"../../domClasses/needUL":22}],10:[function(require,module,exports){
 const BlockContent = require("../../domClasses/blockContent");
 
 module.exports = async data => {
@@ -548,7 +623,7 @@ module.exports = async data => {
   });
 };
 
-},{"../../domClasses/blockContent":19}],9:[function(require,module,exports){
+},{"../../domClasses/blockContent":21}],11:[function(require,module,exports){
 const NeedUL = require("../../domClasses/needUL");
 
 const BlockContent = require("../../domClasses/blockContent");
@@ -627,7 +702,7 @@ module.exports = async () => {
   //   });
 };
 
-},{"../../db/library-cheatsheets-single-collection":13,"../../domClasses/blockContent":19,"../../domClasses/needUL":20}],10:[function(require,module,exports){
+},{"../../db/library-cheatsheets-single-collection":15,"../../domClasses/blockContent":21,"../../domClasses/needUL":22}],12:[function(require,module,exports){
 var _ = require('lodash');
 
 module.exports = () => {
@@ -658,7 +733,7 @@ module.exports = () => {
   });
 };
 
-},{"lodash":23}],11:[function(require,module,exports){
+},{"lodash":25}],13:[function(require,module,exports){
 module.exports = () => {
   console.log("start");
   const proxyRef = db.collection("proxyServerUrl");
@@ -674,7 +749,7 @@ module.exports = () => {
   });
 };
 
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = () => {
   const cheatsheetPage = document.querySelector(".subjectName").id;
   const cheatsheetsRef = db2.collection("Cheatsheets").doc(cheatsheetPage);
@@ -688,7 +763,7 @@ module.exports = () => {
   });
 };
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = collectionName => {
   let allTheDocuments = [];
   return db2.collection(collectionName).get().then(function (querySnapshot) {
@@ -700,14 +775,14 @@ module.exports = collectionName => {
   });
 };
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = (collectionName, documentName) => {
   return db2.collection(collectionName).doc(documentName).get().then(doc => {
     return doc.data();
   });
 };
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = whatWeWant => {
   if (whatWeWant == "Philosophy") {
     whatWeWant = "Philosophy & Religious Studies";
@@ -727,7 +802,7 @@ module.exports = whatWeWant => {
   });
 };
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = whatWeWant => {
   let allTheDocuments = [];
   return db.collection("databases").where("goodFor", "array-contains", `${whatWeWant}`).get().then(function (querySnapshot) {
@@ -740,7 +815,7 @@ module.exports = whatWeWant => {
   });
 };
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = collectionName => {
   let allTheDocuments = [];
   return db.collection(collectionName).get().then(function (querySnapshot) {
@@ -752,14 +827,14 @@ module.exports = collectionName => {
   });
 };
 
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = (collectionName, documentName) => {
   return db.collection(collectionName).doc(documentName).get().then(doc => {
     return doc.data();
   });
 };
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 class CheatsheetsBlockContent {
   constructor(blockContent, name) {
     this.blockContent = blockContent;
@@ -776,7 +851,7 @@ class CheatsheetsBlockContent {
 
 module.exports = CheatsheetsBlockContent;
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 class CheatsheetsNeedUL {
   constructor(name) {
     this.name = name;
@@ -793,7 +868,7 @@ class CheatsheetsNeedUL {
 
 module.exports = CheatsheetsNeedUL;
 
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports = dataForThisCheatsheet => {
   // console.log(dataForThisCheatsheet);
   let blocksForProduction = [];
@@ -806,15 +881,15 @@ module.exports = dataForThisCheatsheet => {
   return blocksForProduction;
 };
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = (blockDisplayName, blockFirestoreName) => {
   const blockShell = `<div class="cheatsheet-block" id="${blockDisplayName}-wrap"><h3 id="${blockDisplayName}-heading">${blockDisplayName}</h3><div id="${blockDisplayName}-interior" class="cheatsheet-block-interior"></div></div>`;
   const domElement = document.getElementById("cheatsheetsBlockWrapper");
   domElement.insertAdjacentHTML("beforeend", blockShell);
 };
 
-},{}],23:[function(require,module,exports){
-(function (global){(function (){
+},{}],25:[function(require,module,exports){
+(function (global){
 /**
  * @license
  * Lodash <https://lodash.com/>
@@ -17928,5 +18003,5 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
   }
 }.call(this));
 
-}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[1]);
