@@ -8,12 +8,12 @@ module.exports = async () => {
   const topicForThisPage = document.querySelector(".subjectName").id;
   let rawData = await getSingleCollection("Weblinks");
   let initDom = new NeedUL("weblinks_block");
-      initDom.getToAppending();
-  rawData.forEach(i => {
-    i.AssociatedSubjects.forEach(q => {
+  initDom.getToAppending();
+  rawData.forEach((i) => {
+    i.AssociatedSubjects.forEach((q) => {
       if (q == topicForThisPage) {
         // console.log("yesss", q, i);
-          
+
         let linkDescription, linkDisplayName, linkLink;
         if (i.description == undefined) {
           linkDescription = "";
@@ -26,14 +26,12 @@ module.exports = async () => {
         if (!i.url) {
           return;
         } else linkLink = i.url;
-     
+
         let forDom = `<li><a href="${linkLink}" class="cheatsheets-link-name">${linkDisplayName}</a><p class="cheatsheets-link-description">${linkDescription}</p></li>`;
         let weblinksContent = new BlockContent(forDom, "weblinks_block");
-      
+
         weblinksContent.getToAppending();
-    
       }
-     
     });
   });
 

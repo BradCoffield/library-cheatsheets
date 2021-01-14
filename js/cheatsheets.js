@@ -24,8 +24,8 @@ const createCitationBlock = require("./modules/blockCreation/core/citation_help"
 const createDPLABlock = require("./modules/blockCreation/ancillary/dpla");
 const createPrimoQuickSearch = require("./modules/blockCreation/core/primo_quick_search");
 const createDbBySubject = require("./modules/blockCreation/core/databases-by-subject");
-// const createEbooksBlock = require("./modules/blockCreation/core/ebooks");
-// const createInstructionVideosBlock = require("./modules/blockCreation/core/instruction-videos");
+const createEbooksBlock = require("./modules/blockCreation/core/ebooks");
+const createInstructionVideosBlock = require("./modules/blockCreation/core/instruction-videos");
 
 /* ~actual stuff~ */
 (async () => {
@@ -95,11 +95,11 @@ const createDbBySubject = require("./modules/blockCreation/core/databases-by-sub
 
     if (blockName === "ebooks_block") {
       document.getElementById("ebooks_block-heading").innerHTML = "eBooks";
-      // createEbooksBlock();
+      createEbooksBlock();
     }
     if (blockName === "instruction_videos") {
       document.getElementById("instruction_videos-heading").innerHTML = "Instruction Videos";
-      // createInstructionVideosBlock();
+      createInstructionVideosBlock();
     }
   });
 })();
