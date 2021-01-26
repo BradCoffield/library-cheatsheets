@@ -95,7 +95,7 @@ const createInstructionVideosBlock = require("./modules/blockCreation/core/instr
 
     if (blockName === "ebooks_block") {
       document.getElementById("ebooks_block-heading").innerHTML = "eBooks";
-      createEbooksBlock();
+      createEbooksBlock(proxyPrepend);
     }
     if (blockName === "instruction_videos") {
       document.getElementById("instruction_videos-heading").innerHTML = "Instruction Videos";
