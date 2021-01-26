@@ -112,7 +112,7 @@ const createInstructionVideosBlock = require("./modules/blockCreation/core/instr
 
     if (blockName === "ebooks_block") {
       document.getElementById("ebooks_block-heading").innerHTML = "eBooks";
-      createEbooksBlock();
+      createEbooksBlock(proxyPrepend);
     }
 
     if (blockName === "instruction_videos") {
@@ -357,7 +357,7 @@ const getSingleCollection = require("../../db/library-cheatsheets-single-collect
 
 const BlockContent = require("../../domClasses/blockContent");
 
-module.exports = async () => {
+module.exports = async proxyPrepend => {
   console.log("ebooks creation block"); //build a UL within the already created block
 
   let initDom = new NeedUL("ebooks_block");
@@ -370,9 +370,16 @@ module.exports = async () => {
     i.associatedSubjects.forEach(q => {
       if (q == topicForThisPage) {
         console.log("yesss", q, i);
-        let forDom = `<li><a href="${i.url}" target="_blank" class="cheatsheets-link-name">${i.title}</a></li>`;
-        let ebooksContent = new BlockContent(forDom, "ebooks_block");
-        ebooksContent.getToAppending();
+
+        if (i.useProxy == true) {
+          let forDom = `<li><a href="${proxyPrepend}${i.url}" target="_blank" class="cheatsheets-link-name">${i.title}</a></li>`;
+          let ebooksContent = new BlockContent(forDom, "ebooks_block");
+          ebooksContent.getToAppending();
+        } else {
+          let forDom = `<li><a href="${i.url}" target="_blank" class="cheatsheets-link-name">${i.title}</a></li>`;
+          let ebooksContent = new BlockContent(forDom, "ebooks_block");
+          ebooksContent.getToAppending();
+        }
       }
     });
   });
