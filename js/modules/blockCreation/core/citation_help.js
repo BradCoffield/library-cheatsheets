@@ -9,7 +9,7 @@ module.exports = (rawSheetData) => {
         "CitationStylesRepository",
         styleWanted
       );
-      // console.log(citationStyleData.styleWeblinks);
+      console.log(citationStyleData.styleWeblinks);
       let contentForDom = `<h3 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>${citationStyleData.styleDisplayName}</h3><div class="flex-container" style="margin: 0rem 0rem 4rem"><div class="flex-container"><img src="${citationStyleData.styleBook.imgURL}" alt="Book cover of ${citationStyleData.styleDisplayName} Handbook"  ></img><p style="max-width:250px;align-self:center;margin-left:16px;margin-right:32px;">${citationStyleData.styleBook.bookDescription} It is available for use <a href="${citationStyleData.styleBook.primoURL}" target="_blank">in the library.</a></p></div><div><h4 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>Helpful Links</h4><ul id="${citationStyleData.styleDisplayName}-helpful-links-ul"></ul></div></div>`;
 
       let domStuff = new BlockContent(
