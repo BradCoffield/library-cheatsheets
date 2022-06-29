@@ -188,8 +188,8 @@ module.exports = rawSheetData => {
 
   (async () => {
     rawSheetData.citation_styles.toUse.forEach(async styleWanted => {
-      let citationStyleData = await cheatsheetsDocument("CitationStylesRepository", styleWanted); // console.log(citationStyleData.styleWeblinks);
-
+      let citationStyleData = await cheatsheetsDocument("CitationStylesRepository", styleWanted);
+      console.log(citationStyleData.styleWeblinks);
       let contentForDom = `<h3 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>${citationStyleData.styleDisplayName}</h3><div class="flex-container" style="margin: 0rem 0rem 4rem"><div class="flex-container"><img src="${citationStyleData.styleBook.imgURL}" alt="Book cover of ${citationStyleData.styleDisplayName} Handbook"  ></img><p style="max-width:250px;align-self:center;margin-left:16px;margin-right:32px;">${citationStyleData.styleBook.bookDescription} It is available for use <a href="${citationStyleData.styleBook.primoURL}" target="_blank">in the library.</a></p></div><div><h4 style='font-family: "Roboto Condensed", sans-serif;text-decoration: underline;'>Helpful Links</h4><ul id="${citationStyleData.styleDisplayName}-helpful-links-ul"></ul></div></div>`;
       let domStuff = new BlockContent(contentForDom, "citation_styles-interior");
       domStuff.getToAppending();
@@ -617,16 +617,16 @@ module.exports = async data => {
     </div>
     
     </form>
-    <div id="adv-search-link">
-    <a href="https://rocky-primo.hosted.exlibrisgroup.com/primo-explore/search?sortby=rank&vid=01TRAILS_ROCKY&lang=en_US&mode=advanced">Advanced Search</a>
-    </div>`;
+   <div id="adv-search-link">
+                        <a href="https://trails-rocky.primo.exlibrisgroup.com/discovery/search?vid=01TRAILS_ROCKY:01TRAILS_ROCKY&mode=advanced">Advanced Search</a> |   <a href="https://libkey.io/">DOI Lookup</a>
+                    </div>`;
   let tt = new BlockContent(htmlWeWant, "primo_quick_search-interior");
   tt.getToAppending();
-  let aa = document.getElementById('primo-search-button');
-  aa.addEventListener('click', function (event) {
-    var target = "https://rocky-primo.hosted.exlibrisgroup.com/primo-explore/search?vid=01TRAILS_ROCKY&institution=01TRAILS_ROCKY&tab=default_tab&indx=1&bulkSize=10&srt=relevance&sortField=default&search_scope=01TRAILS_ROCKY&query=any,contains," + document.getElementById('1549903767743').value;
-    console.log(document.getElementById('1549903767743').value);
-    window.open(target, '_blank');
+  let aa = document.getElementById("primo-search-button");
+  aa.addEventListener("click", function (event) {
+    var target = "https://trails-rocky.primo.exlibrisgroup.com/discovery/search?tab=Everything&search_scope=MyInstitution&vid=01TRAILS_ROCKY:01TRAILS_ROCKY&offset=0&query=any,contains," + document.getElementById("1549903767743").value;
+    console.log(document.getElementById("1549903767743").value);
+    window.open(target, "_blank");
   });
 };
 
@@ -896,7 +896,7 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
 };
 
 },{}],25:[function(require,module,exports){
-(function (global){
+(function (global){(function (){
 /**
  * @license
  * Lodash <https://lodash.com/>
@@ -911,7 +911,7 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.15';
+  var VERSION = '4.17.19';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -4618,8 +4618,21 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      * @returns {Array} Returns the new sorted array.
      */
     function baseOrderBy(collection, iteratees, orders) {
+      if (iteratees.length) {
+        iteratees = arrayMap(iteratees, function(iteratee) {
+          if (isArray(iteratee)) {
+            return function(value) {
+              return baseGet(value, iteratee.length === 1 ? iteratee[0] : iteratee);
+            }
+          }
+          return iteratee;
+        });
+      } else {
+        iteratees = [identity];
+      }
+
       var index = -1;
-      iteratees = arrayMap(iteratees.length ? iteratees : [identity], baseUnary(getIteratee()));
+      iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
 
       var result = baseMap(collection, function(value, key, collection) {
         var criteria = arrayMap(iteratees, function(iteratee) {
@@ -4876,6 +4889,10 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
         var key = toKey(path[index]),
             newValue = value;
 
+        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+          return object;
+        }
+
         if (index != lastIndex) {
           var objValue = nested[key];
           newValue = customizer ? customizer(objValue, key, nested) : undefined;
@@ -5028,11 +5045,14 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      *  into `array`.
      */
     function baseSortedIndexBy(array, value, iteratee, retHighest) {
-      value = iteratee(value);
-
       var low = 0,
-          high = array == null ? 0 : array.length,
-          valIsNaN = value !== value,
+          high = array == null ? 0 : array.length;
+      if (high === 0) {
+        return 0;
+      }
+
+      value = iteratee(value);
+      var valIsNaN = value !== value,
           valIsNull = value === null,
           valIsSymbol = isSymbol(value),
           valIsUndefined = value === undefined;
@@ -6517,10 +6537,11 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
       if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
         return false;
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(array);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var arrStacked = stack.get(array);
+      var othStacked = stack.get(other);
+      if (arrStacked && othStacked) {
+        return arrStacked == other && othStacked == array;
       }
       var index = -1,
           result = true,
@@ -6682,10 +6703,11 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
           return false;
         }
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(object);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var objStacked = stack.get(object);
+      var othStacked = stack.get(other);
+      if (objStacked && othStacked) {
+        return objStacked == other && othStacked == object;
       }
       var result = true;
       stack.set(object, other);
@@ -10066,6 +10088,10 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      * // The `_.property` iteratee shorthand.
      * _.filter(users, 'active');
      * // => objects for ['barney']
+     *
+     * // Combining several predicates using `_.overEvery` or `_.overSome`.
+     * _.filter(users, _.overSome([{ 'age': 36 }, ['age', 40]]));
+     * // => objects for ['fred', 'barney']
      */
     function filter(collection, predicate) {
       var func = isArray(collection) ? arrayFilter : baseFilter;
@@ -10815,15 +10841,15 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      * var users = [
      *   { 'user': 'fred',   'age': 48 },
      *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 },
+     *   { 'user': 'fred',   'age': 30 },
      *   { 'user': 'barney', 'age': 34 }
      * ];
      *
      * _.sortBy(users, [function(o) { return o.user; }]);
-     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 30]]
      *
      * _.sortBy(users, ['user', 'age']);
-     * // => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
+     * // => objects for [['barney', 34], ['barney', 36], ['fred', 30], ['fred', 48]]
      */
     var sortBy = baseRest(function(collection, iteratees) {
       if (collection == null) {
@@ -15698,11 +15724,11 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
 
       // Use a sourceURL for easier debugging.
       // The sourceURL gets injected into the source that's eval-ed, so be careful
-      // with lookup (in case of e.g. prototype pollution), and strip newlines if any.
-      // A newline wouldn't be a valid sourceURL anyway, and it'd enable code injection.
+      // to normalize all kinds of whitespace, so e.g. newlines (and unicode versions of it) can't sneak in
+      // and escape the comment, thus injecting code that gets evaled.
       var sourceURL = '//# sourceURL=' +
         (hasOwnProperty.call(options, 'sourceURL')
-          ? (options.sourceURL + '').replace(/[\r\n]/g, ' ')
+          ? (options.sourceURL + '').replace(/\s/g, ' ')
           : ('lodash.templateSources[' + (++templateCounter) + ']')
         ) + '\n';
 
@@ -15735,8 +15761,6 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
 
       // If `variable` is not specified wrap a with-statement around the generated
       // code to add the data object to the top of the scope chain.
-      // Like with sourceURL, we take care to not check the option's prototype,
-      // as this configuration is a code injection vector.
       var variable = hasOwnProperty.call(options, 'variable') && options.variable;
       if (!variable) {
         source = 'with (obj) {\n' + source + '\n}\n';
@@ -16443,6 +16467,9 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      * values against any array or object value, respectively. See `_.isEqual`
      * for a list of supported value comparisons.
      *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
+     *
      * @static
      * @memberOf _
      * @since 3.0.0
@@ -16458,6 +16485,10 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      *
      * _.filter(objects, _.matches({ 'a': 4, 'c': 6 }));
      * // => [{ 'a': 4, 'b': 5, 'c': 6 }]
+     *
+     * // Checking for several possible values
+     * _.filter(users, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matches(source) {
       return baseMatches(baseClone(source, CLONE_DEEP_FLAG));
@@ -16471,6 +16502,9 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      * **Note:** Partial comparisons will match empty array and empty object
      * `srcValue` values against any array or object value, respectively. See
      * `_.isEqual` for a list of supported value comparisons.
+     *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
      *
      * @static
      * @memberOf _
@@ -16488,6 +16522,10 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      *
      * _.find(objects, _.matchesProperty('a', 4));
      * // => { 'a': 4, 'b': 5, 'c': 6 }
+     *
+     * // Checking for several possible values
+     * _.filter(users, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matchesProperty(path, srcValue) {
       return baseMatchesProperty(path, baseClone(srcValue, CLONE_DEEP_FLAG));
@@ -16711,6 +16749,10 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      * Creates a function that checks if **all** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -16737,6 +16779,10 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      * Creates a function that checks if **any** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -16756,6 +16802,9 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
      *
      * func(NaN);
      * // => false
+     *
+     * var matchesFunc = _.overSome([{ 'a': 1 }, { 'a': 2 }])
+     * var matchesPropertyFunc = _.overSome([['a', 1], ['a', 2]])
      */
     var overSome = createOver(arraySome);
 
@@ -18010,5 +18059,5 @@ module.exports = (blockDisplayName, blockFirestoreName) => {
   }
 }.call(this));
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[1]);
