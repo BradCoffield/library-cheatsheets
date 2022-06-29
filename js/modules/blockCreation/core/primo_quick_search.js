@@ -16,7 +16,7 @@ module.exports = async (data) => {
     
     </form>
    <div id="adv-search-link">
-                        <a href="https://rocky-primo.hosted.exlibrisgroup.com/primo-explore/search?sortby=rank&amp;vid=01TRAILS_ROCKY&amp;lang=en_US&amp;mode=advanced">Advanced Search</a> |   <a href="https://libkey.io/">DOI Lookup</a>
+                        <a href="https://trails-rocky.primo.exlibrisgroup.com/discovery/search?vid=01TRAILS_ROCKY:01TRAILS_ROCKY&mode=advanced">Advanced Search</a> |   <a href="https://libkey.io/">DOI Lookup</a>
                     </div>`;
 
   let tt = new BlockContent(htmlWeWant, "primo_quick_search-interior");
@@ -25,7 +25,7 @@ module.exports = async (data) => {
   let aa = document.getElementById("primo-search-button");
   aa.addEventListener("click", function (event) {
     var target =
-      "https://rocky-primo.hosted.exlibrisgroup.com/primo-explore/search?vid=01TRAILS_ROCKY&institution=01TRAILS_ROCKY&tab=default_tab&indx=1&bulkSize=10&srt=relevance&sortField=default&search_scope=01TRAILS_ROCKY&query=any,contains," +
+      "https://trails-rocky.primo.exlibrisgroup.com/discovery/search?tab=Everything&search_scope=MyInstitution&vid=01TRAILS_ROCKY:01TRAILS_ROCKY&offset=0&query=any,contains," +
       document.getElementById("1549903767743").value;
     console.log(document.getElementById("1549903767743").value);
     window.open(target, "_blank");
